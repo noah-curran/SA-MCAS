@@ -16,6 +16,16 @@ S_t = 352.84; %ft^2
 S_e = 70.5; %ft^2
 c_bar = 12.99213; %ft
 
+% Some state variables for the calculations.
+W = 181197.9; %initialized (weight of aircraft), lbs
+% ^ maybe also from the sensors?
+rho = 0; %from sensor (air density), slug/ft^3
+u_0 = 0; %from sensor (initial forward speed), ft/s
+V = 0; %from sensor (true airspeed), ft/s
+g = 32.2; %(gravity), ft/s^2
+m = W/g;
+Q = 0.5*rho*u_0^2;
+
 % The tail efficiency factor is assumed to be 1.
 % From Chapter 3 of Nelson, R. C. (1997). Flight stability & automatic
 % control.
@@ -33,17 +43,46 @@ C_Du = 0;
 % engine, C_Tu = -C_D0 as an approximation.
 C_Tu = -C_D0;
 
-% TODO: How to calculate this?
-C_L = 0;
+% See here: https://www.grc.nasa.gov/WWW/k-12/airplane/Images/vecthrst.gif
+% See here: https://www.grc.nasa.gov/www/k-12/airplane/Images/climb.gif
+% For lift, there are a few types. This depends on thrust and climb.
+% (1) There is climb:
+%    (i)  There is thrust.
+%         T*sin(c) - D*sin(c) + L*cos(c) - W = m*a_v
+%    (ii) There is T = D.
+%         L*cos(c) - W = m*a_v
+% (2) There is no climb:
+%    (i)  There is thrust.
+%         T - D + L - W = m*a_v
+%    (ii) There is T = D.
+%         L - W = m*a_v
+%
+% This can easily be generalized to (1.i) and then everything else will
+% simplify if necessary.
+%
+% Here, let's first assume there is no climb and steady thrust.
+a_v = 0; %assume for now... could get from sensors.
+T = 0; %assume for now... could get from sensors.
+D = 0; %assume for now... could get from sensors.
+c = 0; %from sensor (climb angle)
+F_v = m*a_v;
+L = (F_v - T*sin(c) + D*sin(c) + W) / (cos(c));
+
+% We can rearrage the simple lift equation that includes the lift
+% coefficient to calculate the lift coefficient.
+C_L = (2*L) / (rho*V^2*S);
 
 % TODO: How to calculate this?
 C_Malpha_fus = 0;
 
 % TODO: How to calculate these?
+% I think this can be obtained from sensors.
 x_cg = 0; % distance from wing's leading edge to center of gravity
 x_ac = 0; % distance from wing's leading edge to aerodynamic center
 
 % TODO: Explain calculating l_t (relies on Center of gravity).
+% Because we can get the center of gravity sensor reading, we can calculate
+% this on the fly...
 l_t = 70.685;
 
 % Use S_e/S_t and Figure 2.21 from Chapter 2 of Nelson, R. C. (1997). Flight
@@ -69,14 +108,6 @@ C_Mq = -2*C_Lalpha_t*eta*V_H*l_t/c_bar;
 C_Xdelta_e = 0;
 C_Zdelta_e = -C_Lalpha_t*tau*eta*(S_t/S);
 C_Mdelta_e = C_Zdelta_e*(l_t / c_bar);
-
-% Some helper variables for the next calculations.
-W = 181197.9; %initialized (weight of aircraft), lbs
-rho = 0; %from sensor (air density), slug/ft^3
-u_0 = 0; %from sensor (initial forward speed), ft/s
-g = 32.2; %(gravity), ft/s^2
-m = W/g;
-Q = 0.5*rho*u_0^2;
 
 % TODO: figure out how to calculate this.
 % A tip: https://www.eng-tips.com/viewthread.cfm?qid=88770
