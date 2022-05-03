@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+    <logging>
+        <log>
+            <filename>$FG_HOME/Export/fg_log.csv</filename>
+            <enabled>true</enabled>
+            <interval-ms>1000</interval-ms>
+            <delimiter>,</delimiter>
+            <entry>
+                <enabled>true</enabled>
+                <title>Rudder</title>
+                <property>/controls/flight/rudder</property>
+            </entry>
+            <entry>
+                <enabled>true</enabled>
+                <title>Ailerons</title>
+                <property>/controls/flight/aileron</property>
+            </entry>
+            <entry>
+                <enabled>true</enabled>
+                <title>Elevator</title>
+                <property>/controls/flight/elevator</property>
+            </entry>
+        </log>
+    </logging>
+</PropertyList>
