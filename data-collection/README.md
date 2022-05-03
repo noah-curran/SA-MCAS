@@ -80,3 +80,29 @@ To add additional logs, use the following code block as a template:
     <property>/property/browser/path/to/sensor</property>
 </entry>
 ```
+
+## Editing the Log Configuration
+There are a few parameters of `log-config.xml` that can be changed according to personal
+needs.
+
+### `<filename>`
+The filename parameter is simply where the log file is saved to. This can be anywhere on
+your machine, but the recommended location is in the `Export` folder. The actual name of
+the file can also be anything you want. For instance, if you are performing a specific
+flight routine and wish to log for it, then you may name the log file to reflect that
+routine. Due to an undocumented bug that occurs due to a prior patch for a vulnerability,
+absolute path names are the only way to define a destination to the log file.
+
+### `<enabled>`
+This parameter allows for us to enable and disable certain logged sensor values as we
+go along. This may be useful if there are some sensors for which we wish to include, but
+are not currently seeking to measure.
+
+### `<interval-ms>`
+Here we define the rate at which the logger collects more sensor data, measure in
+milliseconds. This rate should be artificially high and we can adjust the downsample as 
+necessary in the post processing. Ideally, this rate should be as fast as the fastest
+sensor that way we do not have to interpolate for fine-grained readings.
+
+### `<delimiter>`
+In order to save to a .csv file, this should remain as a `,`.
