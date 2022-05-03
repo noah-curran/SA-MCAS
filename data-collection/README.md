@@ -75,7 +75,7 @@ Here, you can search through the property browser to locate the sensors you need
 To add additional logs, use the following code block as a template:
 ```xml
 <entry>
-    <enabled>true</enabled><ref></ref>
+    <enabled>true</enabled>
     <title>Name of Sensor</title>
     <property>/property/browser/path/to/sensor</property>
 </entry>
