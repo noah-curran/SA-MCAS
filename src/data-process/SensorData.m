@@ -5,8 +5,9 @@ classdef SensorData
     properties
         DataPath {mustBeFile} = "./SensorData.m"
         ParamsPath {mustBeFile} = "./SensorData.m"
-        Data
-        Params
+        Data = 0
+        Params = 0
+        DataPointer = 1
     end
     
     methods
@@ -40,22 +41,46 @@ classdef SensorData
         end
 
         function obj = processData(obj)
-            %PROCESSDATA TODO: Summary.
-            %   TODO: Long explanation.
+            %PROCESSDATA The data that is imported is processed all at once.
+            %   The data will all be processed to downsample any
+            %   oversampling of data that is not accurate to the typical
+            %   sampling of a sensor.
+            % 
+            %   MAYBE:
+            %   The data is also ensured to be sampled during a consistent
+            %   rate that is within the percentage set by the parameters.
+
+            if obj.Data == 0
+                ME = MException("SensorData:processData", ...
+                    "Data has not been loaded and cannot be processed.");
+                throw(ME)
+            end
 
             intervalLeeway = obj.Params.intervalLeeway;
             sensorFrequencies = obj.Params.sensor_frequencies;
             processedData = obj.Data;
             % TODO: First ensure that the sensor readings are within
-            % the leeway of one another. Then downsample the frequencies.
+            % the leeway of one another.
+            
+            % TODO: Then downsample the frequencies.
             % Use the processedData to perform these tasks.
             
             obj.Data = processedData;
         end
 
-        function obj = filterData(obj)
-            %FILTERDATA TODO: Summary.
-            %   TODO: Long explanation.
+        function obj = filterData(obj, order)
+            %FILTERDATA The data that is imported is filtered all at once.
+            %   The data will all be filtered by a lowpass filter
+            %   using butterworth. The parameter "order" will be passed
+            %   into the butterworth filter. NOTE THAT THIS FUNCTION IS
+            %   JUST TO CHECK THE FILTER LOOKS GOOD AND WILL NOT BE USED IN
+            %   EXPERIMENTS.
+
+            if obj.Data == 0
+                ME = MException("SensorData:filterData", ...
+                    "Data has not been loaded and cannot be filtered.");
+                throw(ME)
+            end
 
             filterData = obj.Data;
             % TODO: Filter the data using a lowpass filter. Ensure it looks
@@ -65,12 +90,28 @@ classdef SensorData
         end
 
         function graphData(obj, sensors)
-            %GRAPHDATA TODO: Summary.
-            %   TODO: Long explanation.
+            %GRAPHDATA Graph the given sensor data names.
+            %   The given sensors should be provided in the format of an
+            %   array such as
+            %   
+            %       [["sensor1", "sensor2", ...], ... ["sensorn"]]
+            %
+            %   where the sensors in the same bracket group are overlayed
+            %   on one another within the same graph and the sensors in
+            %   separate bracket groups appear vertically stacked with the
+            %   first group at the top. This method is used as a helper for
+            %   verifying the other methods implemented in this class are
+            %   correct.
 
             arguments
                 obj SensorData
                 sensors (:,:,:) string
+            end
+
+            if obj.Data == 0
+                ME = MException("SensorData:graphData", ...
+                    "Data has not been loaded and cannot be graphed.");
+                throw(ME)
             end
 
             % TODO: Graph the data using matlab plots.
