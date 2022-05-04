@@ -1,13 +1,23 @@
 classdef SensorData
-    %SENSORDATA Summary of this class goes here
-    %   Detailed explanation goes here
+    %SENSORDATA Stores location of sensor data and processes it.
+    %   This class takes the file path to sensor data and then separately
+    %   can load this data in locally. This data can then be processed for
+    %   used, filtered, and graphed. The data proccessing done in this
+    %   class will be used to output the data to be used by a source block
+    %   in Simulink. See this documentation page for information about how
+    %   the Data will be used:
+    %   https://www.mathworks.com/help/simulink/slref/fromworkspace.html
+    %
+    %   THE FILTERING IN THIS CLASS IS FOR INFORMATIONAL USE ONLY AND IS
+    %   NOT TO BE USED IN EXPERIMENTS. THE FILTERING FOR EXPERIMENTS SHOULD
+    %   HAPPEN DURING SIMULINK OPERATION AS ITS OWN BLOCK SUCH AS THIS:
+    %   https://www.mathworks.com/help/dsp/ref/lowpassfilter.html
     
     properties
         DataPath {mustBeFile} = "./SensorData.m"
         ParamsPath {mustBeFile} = "./SensorData.m"
         Data = 0
         Params = 0
-        DataPointer = 1
     end
     
     methods
@@ -44,7 +54,9 @@ classdef SensorData
             %PROCESSDATA The data that is imported is processed all at once.
             %   The data will all be processed to downsample any
             %   oversampling of data that is not accurate to the typical
-            %   sampling of a sensor.
+            %   sampling of a sensor. Downsampling will not remove entries,
+            %   it will simply turn oversampled entries into those of the
+            %   value at the correct sampling rate.
             % 
             %   MAYBE:
             %   The data is also ensured to be sampled during a consistent
@@ -60,7 +72,8 @@ classdef SensorData
             sensorFrequencies = obj.Params.sensor_frequencies;
             processedData = obj.Data;
             % TODO: First ensure that the sensor readings are within
-            % the leeway of one another.
+            % the leeway of one another. (This feature is not necessarily
+            % the most important, so do this last.)
             
             % TODO: Then downsample the frequencies.
             % Use the processedData to perform these tasks.
@@ -114,7 +127,8 @@ classdef SensorData
                 throw(ME)
             end
 
-            % TODO: Graph the data using matlab plots.
+            % TODO: Graph the data using matlab plots as described in the
+            % description of this method.
 
         end
     end
