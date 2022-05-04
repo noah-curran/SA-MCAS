@@ -3,8 +3,8 @@ classdef SensorData
     %   Detailed explanation goes here
     
     properties
-        DataPath {mustbeFile}
-        ParamsPath {mustbeFile}
+        DataPath {mustBeFile} = "./SensorData.m"
+        ParamsPath {mustBeFile} = "./SensorData.m"
         Data
         Params
     end
@@ -40,6 +40,9 @@ classdef SensorData
         end
 
         function obj = processData(obj)
+            %PROCESSDATA TODO: Summary.
+            %   TODO: Long explanation.
+
             intervalLeeway = obj.Params.intervalLeeway;
             sensorFrequencies = obj.Params.sensor_frequencies;
             processedData = obj.Data;
@@ -51,11 +54,27 @@ classdef SensorData
         end
 
         function obj = filterData(obj)
+            %FILTERDATA TODO: Summary.
+            %   TODO: Long explanation.
+
             filterData = obj.Data;
             % TODO: Filter the data using a lowpass filter. Ensure it looks
             % smooth.
 
             obj.Data = filterData;
+        end
+
+        function graphData(obj, sensors)
+            %GRAPHDATA TODO: Summary.
+            %   TODO: Long explanation.
+
+            arguments
+                obj SensorData
+                sensors (:,:,:) string
+            end
+
+            % TODO: Graph the data using matlab plots.
+
         end
     end
 end
