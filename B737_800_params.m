@@ -109,11 +109,22 @@ C_Xdelta_e = 0;
 C_Zdelta_e = -C_Lalpha_t*tau*eta*(S_t/S);
 C_Mdelta_e = C_Zdelta_e*(l_t / c_bar);
 
-% TODO: figure out how to calculate this.
 % A tip: https://www.eng-tips.com/viewthread.cfm?qid=88770
 % https://shop.darcorp.com/index.php?route=product/product&path=85_60&product_id=55
+% Page 17 explains how to do this. This can be done better, but for now
+% let's trust this. We are basing this off of the Boeing 727-100 radii of
+% gyration, which is found on page 201 of this same book. The rest of the
+% values are from Boeing 737-800 specifications.
 % Mass moment of inertia about the y axis.
-I_y = 0; %slug-ft^2
+R_bar_y_TO = 0.375;
+R_bar_y_E = 0.4066;
+l = 129.5932; %ft, length
+W_TO_max = 174200;
+W_E_max = 138300;
+
+% This is around 3.2e6, and the estimate is 3.1e6, so it is pretty close.
+I_y_TO = (R_bar_y_TO * l / 2)^2 * W_TO_max / g; %slug-ft^2
+I_y_E = (R_bar_y_E * l / 2)^2 * W_E_max / g; %slug-ft^2
 
 % Calculate the dimensional derivatives.
 X_u = C_Xu * (Q*S)/(m*u_0);
