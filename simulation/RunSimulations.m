@@ -29,5 +29,5 @@ disp('Example test run of a 737 to show how to simulate.');
 sim('MCASSimulation');
 
 % Clean up the workspace.
-% clear functions;
-% clear all;
+clear functions;
+clear all;
