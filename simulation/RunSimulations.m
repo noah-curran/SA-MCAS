@@ -23,11 +23,13 @@ anomaly_params = 'anomalies/test.json';
 test_script = 'scripts/737_cruise';
 aircraft_type = '737';
 init_conds = 'cruise_init';
+port_config = 'port_config/test';
+port_config2 = 'port_config/test2';
 
 % Run this simulation.
 disp('Example test run of a 737 to show how to simulate.');
 sim('MCASSimulation');
 
 % Clean up the workspace.
-clear functions;
-clear all;
+%clear functions;
+%clear all;

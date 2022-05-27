@@ -34,25 +34,12 @@
       6: None
     -->
     
-    <!--
     <event name="Trim">
-      <condition> simulation/sim-time-sec gt 0.1 </condition>
+      <condition>
+          simulation/sim-time-sec gt 0.1
+      </condition>
       <set name="simulation/do_simple_trim" value="1"/>
-      <delay>5.0</delay>
-      <notify>
-        <property>propulsion/engine[0]/n2</property>
-        <property>propulsion/engine[1]/n2</property>
-        <property>propulsion/engine[0]/thrust-lbs</property>
-        <property>propulsion/engine[1]/thrust-lbs</property>
-        <property>velocities/vc-kts</property>
-        <property>velocities/vc-fps</property>
-        <property>velocities/vt-fps</property>
-        <property>attitude/phi-rad</property>
-        <property>attitude/theta-rad</property>
-        <property>attitude/psi-rad</property>
-      </notify>
     </event>
-    -->
 
     <event name="Repeating Notify" persistent="true">
       <description>Output message at 5 second intervals</description>
@@ -61,8 +48,6 @@
         <property>propulsion/engine[1]/n2</property>
         <property>propulsion/engine[0]/thrust-lbs</property>
         <property>propulsion/engine[1]/thrust-lbs</property>
-        <property apply="convert-lbs-To-N" caption="propulsion/engine[0]/thrust-N">propulsion/engine[0]/thrust-lbs</property>
-        <property apply="convert-lbs-To-N" caption="propulsion/engine[1]/thrust-N">propulsion/engine[1]/thrust-lbs</property>
         <property>position/h-agl-ft</property>
         <property>velocities/vc-kts</property>
         <property>velocities/vc-fps</property>
@@ -74,14 +59,5 @@
       <condition> simulation/sim-time-sec >= simulation/notify-time-trigger </condition>
       <set name="simulation/notify-time-trigger" value="5" type="FG_DELTA"/>
     </event>
-
   </run>
-
-  <output name="737_cruise_output.csv" type="CSV" rate="10" file="unitconversions.xml">
-    <property apply="convert-lbs-To-N" caption="propulsion/engine[0]/thrust-N">propulsion/engine[0]/thrust-lbs</property>
-    <property apply="convert-lbs-To-N" caption="propulsion/engine[1]/thrust-N">propulsion/engine[1]/thrust-lbs</property>
-    <property>attitude/theta-rad</property>
-    <property apply="convert-rad-To-deg" caption="attitude/theta-deg">attitude/theta-rad</property>
-  </output>
-
 </runscript>

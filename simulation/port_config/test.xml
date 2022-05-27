@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<s_function_config>
+    <input>
+        <property> fcs/elevator-cmd-norm </property>
+    </input>
+    <outputs>
+        <output name="Output 0">
+            <property> attitude/theta-deg </property>
+        </output>
+        <output name="Output 1">
+            <property> velocities/vc-kts </property>
+            <property> accelerations/a-pilot-x-ft_sec2 </property>
+            <property> accelerations/a-pilot-y-ft_sec2 </property>
+            <property> accelerations/a-pilot-z-ft_sec2 </property>
+            <property> attitude/phi-deg </property>
+            <property> attitude/theta-deg </property>
+            <property> attitude/psi-deg </property>
+        </output>
+        <output name="Output 2">
+            <property>position/h-agl-ft</property>
+            <property>position/lat-gc-deg</property>
+            <property>position/long-gc-deg</property>
+        </output>
+    </outputs>
+    <!--This is an optional parameter-->
+    <!--The only properties in this should be atmosphere related-->
+    <weather>
+        <property> atmosphere/wind-north-fps </property>
+        <property> atmosphere/wind-north-fps </property>
+        <property> atmosphere/wind-north-fps </property>
+    </weather>
+</s_function_config>
