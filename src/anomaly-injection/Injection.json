@@ -1,0 +1,30 @@
+{
+    "Injection": [{
+        "Injection Type": 3,
+        "Start time": 8,
+        "End time": 9,
+        "Val": 0,
+        "Type": 2,
+        "Coef1": 0.01,
+        "Coef2": 2,
+        "Freq": 0.2
+    },{
+        "Injection Type": 1,
+        "Start time": 6,
+        "End time": 7,
+        "Val": 300,
+        "Type": 0,
+        "Coef1": 0,
+        "Coef2": 0,
+        "Freq": 0
+    },{
+        "Injection Type": 2,
+        "Start time": 1,
+        "End time": 3,
+        "Val": 100,
+        "Type": 0,
+        "Coef1": 0,
+        "Coef2": 0,
+        "Freq": 0
+    }]
+}
