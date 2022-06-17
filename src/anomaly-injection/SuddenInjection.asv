@@ -1,0 +1,24 @@
+classdef SuddenInjection < AnomalyInjection
+
+    properties 
+        Value = 0;
+    end
+    
+    methods 
+        function obj = SuddenInjection(value)
+            obj.Value = value;
+        end
+
+        function outputData = injection(obj, inputData)
+            if time >= obj.StartTime && time <= obj.EndTime
+                outputData = obj.Value;
+            else
+                outputData = inputData;
+            end
+
+        end
+
+    end
+
+end
+

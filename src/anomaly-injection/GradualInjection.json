@@ -1,0 +1,12 @@
+{
+    "Injection": {
+        "Injection Type": 3,
+        "Start time": 2,
+        "End time": 4,
+        "Val": 0,
+        "Type": 2,
+        "Coef1": 5,
+        "Coef2": 3,
+        "Freq": 0.2
+    }
+}

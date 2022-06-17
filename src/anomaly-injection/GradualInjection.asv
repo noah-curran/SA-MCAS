@@ -1,0 +1,30 @@
+classdef GradualInjection < AnomalyInjection
+
+    properties 
+        Type = 0;
+        Coef;
+        step_time = 0;
+        Time = 0;
+    end
+    
+    methods 
+        function obj = SuddenInjection(type, coef, frequency, time)
+            obj.Type = type;
+            obj.Coef = coef;
+            obj.step_time = 1/frequency;
+            obj.Time = time;
+        end
+
+        function outputData = injection(obj, prev)
+                if obj.Type == 1
+                    outputData = prev + obj.Coef * obj.step_time;
+                else if obj.Type == 2
+                     outputData = prev + obj.Coef(1) * obj.step_time^2 + 2 * obj.Coef(1) * obj.step_time * (obj.Time - obj.step_time) + obj.Coef(2) * obj.step_time; 
+                else
+                     outputData = prev + obj.Coef * log(obj.Time / obj.Time)
+        end
+
+    end
+
+end
+
