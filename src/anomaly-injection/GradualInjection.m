@@ -17,13 +17,13 @@ classdef GradualInjection < AnomalyInjection
             obj.Time = time;
         end
 
-        function outputData = injection(obj, prev)
+        function outputData = injection(obj, inputdata)
                 if obj.Type == 1
-                    outputData = prev + obj.Coef1 * obj.step_time;
+                    outputData = inputdata + obj.Coef1 * obj.step_time;
                 elseif obj.Type == 2
-                     outputData = prev + obj.Coef1 * obj.step_time^2 + 2 * obj.Coef1 * obj.step_time * (obj.Time - obj.step_time) + obj.Coef2 * obj.step_time; 
+                     outputData = inputdata + obj.Coef1 * obj.step_time^2 + 2 * obj.Coef1 * obj.step_time * (obj.Time - obj.step_time) + obj.Coef2 * obj.step_time; 
                 else
-                     outputData = prev + obj.Coef1 * log(obj.Time / (obj.Time - obj.step_time));
+                     outputData = inputdata + obj.Coef1 * log(obj.Time / (obj.Time - obj.step_time));
                 end
         end
 

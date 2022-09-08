@@ -5,7 +5,7 @@ classdef (Abstract) AnomalyInjection
     %   injection algorithm and define the shape of the anomaly.
 
     methods (Abstract)
-        outputData = injection(obj,inputdata)
+        outputData = injection(obj, inputdata)
     end
 end
 

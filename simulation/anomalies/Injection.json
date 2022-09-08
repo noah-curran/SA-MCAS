@@ -1,0 +1,13 @@
+{
+    "Injection": [{
+        "Injection Type": 1,
+        "Start time": 8,
+        "End time": 9,
+        "Val": 0,
+        "Type": 1,
+        "Coef1": 5,
+        "Coef2": 0,
+        "Freq": 0.2,
+        "Percentile": 0.3
+    }]
+}

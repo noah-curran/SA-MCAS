@@ -9,7 +9,7 @@ classdef SuddenInjection < AnomalyInjection
             obj.Value = value;
         end
 
-        function outputData = injection(obj, inputata)
+        function outputData = injection(obj, inputdata)
                 outputData = obj.Value;
         end
 

@@ -3,11 +3,10 @@ classdef AltitudeDetector < LinearRegressionAnomalyDetector
     %   Detailed explanation goes here
     
     methods
-        function obj = AltitudeDetector(model, epsilon)
+        function obj = AltitudeDetector(model)
             %TESTDETECTOR Construct an instance of this class
             %   Detailed explanation goes here
             obj.Model = model;
-            obj.Epsilon = epsilon;
         end
 
         function dataDelta = getDataDelta(data)
@@ -18,26 +17,18 @@ classdef AltitudeDetector < LinearRegressionAnomalyDetector
             end
         end
 
-        function errors = detection(obj, inputData)
-            AoA = inputData(:,1);
-            Altitude = inputData(:,2);
+        function inInterval = detection(obj, alpha, hbar)
 
-            AltitudeDelta = getDataDelta(Altitude);
-
-            estAltitudeDelta = runModel(AoA);
+            [predAlpha, ci] = runModel(hbar);
 
             % https://pressbooks.lib.vt.edu/aerodynamics/chapter/chapter-5-altitude-change-climb-and-guide/
             % Altitude drops once stalling. (happens ~18 degrees)
             % Speed drops as altitude drops.
-            [row,~] = size(AltitudeDelta);
 
-            errors = zeros(row);
-            for r=1:row
-                if abs(AltitudeDelta - estAltitudeDelta) > obj.Epsilon
-                    errors(r) = true;
-                else
-                    errors(r) = false;
-                end
+            if (predAlpha + ci(1) > alpha) && (predAlpha + ci(2) < alpha)
+                inInterval = true;
+            else
+                inInterval = false;
             end
         end
     end
