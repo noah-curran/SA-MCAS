@@ -1,4 +1,4 @@
 *.slxc
 *.asv
-/slprj
+*/slprj
 .DS_Store

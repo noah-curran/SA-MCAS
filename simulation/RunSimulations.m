@@ -42,7 +42,7 @@
 clear; clear all;
 
 % Set up anomalies to inject.
-fid = fopen("anomalies/Injection.json");
+fid = fopen("anomalies/EmptyInjection.json");
 rawJson = fread(fid, inf);
 strJson = char(rawJson');
 fclose(fid);
