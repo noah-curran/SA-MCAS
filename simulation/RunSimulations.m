@@ -41,8 +41,17 @@
 
 clear; clear all;
 
+% Configure the simulation files
+num_sims = 0;   % leave at 0. Used for indexing simulations in the workspace
+
+anomaly_params = 'anomalies/EmptyInjection.json';
+test_script = 'scripts/737_cruise'; % not used, JSBSim SFunction still wants to see this though
+aircraft_type = '737';
+init_conds = 'init_auto';   % set_init_conds writes to init_auto
+port_config = 'port_config/port_config_1';
+
 % Set up anomalies to inject.
-fid = fopen("anomalies/EmptyInjection.json");
+fid = fopen(anomaly_params);
 rawJson = fread(fid, inf);
 strJson = char(rawJson');
 fclose(fid);
@@ -55,24 +64,16 @@ sortedParams = table2struct(sortedT);
 
 Simulink.Bus.createObject(sortedParams);
 
-% Configure the simulation files
-num_sims = 0;   % leave at 0. Used for indexing simulations in the workspace
-
-anomaly_params = 'anomalies/test.json';
-test_script = 'scripts/737_cruise'; % not used, JSBSim SFunction still wants to see this though
-aircraft_type = '737';
-init_conds = 'init_auto';   % set_init_conds writes to init_auto
-port_config = 'port_config/port_config_1';
-
 %% RUN SIMULATION
 
-run_sim("takeoff", "mcas_old", 180, 1);
+run_sim("straight_and_climb", "none", anomaly_params, 180, 1);
 
 %% FUNCTIONS
 
-function run_sim(script, MCAS, sim_time_sec, do_plot)
+function run_sim(script, MCAS, anomalies, sim_time_sec, do_plot)
     select_script(script);
     select_MCAS(MCAS);
+
     output = sim('MCASSimulation', sim_time_sec);
 
     % Plotting only occurs if second parameter was supplied and equal to 1.
@@ -146,4 +147,3 @@ function select_script(script_str)
             error("script not recognized for setting init_conds. Add script to switch/case.")
     end
 end % function
-
