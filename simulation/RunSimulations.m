@@ -48,7 +48,29 @@
 % https://www.flaps2approach.com/journal/2014/8/4/boeing-737-800-takeoff-procedure-simplified.html
 % http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm#:~:text=At%20V2%2C%20approximately%20150%20to,a%20positive%20rate%20of%20climb.
 
-% landing: not implemented
+% approach and landing:
+% http://www.b737.org.uk/landingtechnique.htm#During_final_approach_-_after_glideslope_capture
+% https://community.infiniteflight.com/t/boeing-737-800-900-landing-tutorial/174031
+% http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm
+% https://www.youtube.com/watch?v=fwiAYZd-aDE&ab_channel=DenisOkan
+% https://www.youtube.com/watch?v=TJoSW3bJ-uc&ab_channel=JonathanBeckett
+% http://www.b737.org.uk/flapspeedschedule.htm
+% 
+% Begin at and hold 3000 ft, heading hold 90, airspeed hold 180 kts
+% Begin with flap-cmd-norm to 0.375 (setting "5")
+% Begin with gear down
+% Set target airspeed to 160 kts
+% When airspeed is lower than 170 kts, set flap-cmd-norm to 0.5 (setting
+% "10")
+% When airspeed is lower than 150 kts, set flap-cmd-norm to 0.625 (setting
+% "15")
+% Set elevator controller to vertical speed mode, seeking -11.67 fps (-700
+% fpm; approx. 3 degree glideslope)
+% Set target airspeed to 137 kts
+% When airspeed is lower than 140 kts, set flap-cmd-norm to 0.875
+% (setting "30")
+% Maintain speed and glideslope until altitude is less than 100 ft
+% (definitely below 'minimums' by then, ha!)
 
 %% CONFIGURATION
 
@@ -79,7 +101,7 @@ Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "none", 150, 1);
+run_sim("takeoff", "none", 300, 1);
 
 %% FUNCTIONS
 

@@ -30,14 +30,20 @@ JT610_altitude = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "I2:I845")
 clf;
 
 hold on;
-plot(JT610_time_sec+50, JT610_altitude, 'LineWidth', 2, 'Color', 'b');
-plot((time-41)*2.8, h_asl, 'LineWidth', 2, 'Color', 'r');
-xlim([40, 300]);
-ylim([0, 4000]);
+plot(time, h_asl, 'LineWidth', 2, 'Color', 'r');
 set(gca, 'FontSize', 20);
 xlabel("Time (sec)", 'FontSize', 32);
 ylabel("Altitude (ft)", 'FontSize', 32);
-legend("Crash Flight Data", "Simulation (stretched by factor of 2.8)", 'Location','northwest', 'FontSize', 30);
+
+% hold on;
+% plot(JT610_time_sec+50, JT610_altitude, 'LineWidth', 2, 'Color', 'b');
+% plot((time-41)*2.8, h_asl, 'LineWidth', 2, 'Color', 'r');
+% xlim([40, 300]);
+% ylim([0, 4000]);
+% set(gca, 'FontSize', 20);
+% xlabel("Time (sec)", 'FontSize', 32);
+% ylabel("Altitude (ft)", 'FontSize', 32);
+% legend("Crash Flight Data", "Simulation (stretched by factor of 2.8)", 'Location','northwest', 'FontSize', 30);
 
 
 % hold on;
