@@ -1,10 +1,7 @@
 %% Script Descriptions
-% can init_conds be automatically executed for a given function? otherwise
-% people need to look at the script to decide init_conds. Maybe this can be
-% done in the select_script function? An array of inputs to the
-% set_init_conds could be output or something?
 
-% need to implement: takeoff (more important; working but needs to be made more realistic), landing
+% need to implement: takeoff (more important; working but needs to be made more realistic; may need to adjust 
+% elevator controller vert. speed clipping values), landing
 
 % straight_and_level: Start at and maintain 10k ft, 240 kts, 90 deg heading
 
@@ -33,7 +30,23 @@
 % heading of 90 degrees, again turning towards the pilot's right. Repeat indefinitely.
 % Standard turn rate in large aircraft like the B737 is lower than 3 deg/s.
 
-% takeoff: plane can take off and climb. Now need to make a more realistic takeoff
+% takeoff: 
+% Begin at rest on ground (runway) with a 90 degree heading, elevator mode off, 
+% ailerons in heading mode holding 90 degrees, throttle in percent mode at 0 percent.
+% Begin with flap-cmd-norm to 0.375 (setting"5"; ~14 degrees), brake-left-cmd and brake-right-cmd set to 0. 
+% At t=15 seconds, set throttle percent to 0.5. When both engine n1 values exceed 40, set throttle
+% percent to 0.95 (this corresponds to n1 of 100).
+% When airspeed is above 150 kts, set elevator controller to pitch mode, targeting 10 degrees pitch. 
+% Once airspeed exceeds 170 kts and altitude exceeds 50 ft, retract landing gear and
+% set elevators to airspeed mode so that pitch is adjusted to hold airspeed at 170 kts.
+% When altitude exceeds 1000 ft, measure vertical speed and set elevator to vert_speed mode,
+% targeting half of measured vertical speed, and
+% put throttle controller into airspeed mode with reference airspeed of 250 kts.
+% Set flap-cmd-norm to 0.125 (setting "1"; ~8 degrees) when airspeed exceeds 190 kts. 
+% Set flap-cmd-norm to 0 when airspeed exceeds 210 kts.
+% When altitude exceeds 10k ft, set reference airspeed to 280 kts and reference altitude to desired cruising altitude.
+% https://www.flaps2approach.com/journal/2014/8/4/boeing-737-800-takeoff-procedure-simplified.html
+% http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm#:~:text=At%20V2%2C%20approximately%20150%20to,a%20positive%20rate%20of%20climb.
 
 % landing: not implemented
 
@@ -66,11 +79,11 @@ Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("straight_and_climb", "none", anomaly_params, 180, 1);
+run_sim("takeoff", "none", 150, 1);
 
 %% FUNCTIONS
 
-function run_sim(script, MCAS, anomalies, sim_time_sec, do_plot)
+function run_sim(script, MCAS, sim_time_sec, do_plot)
     select_script(script);
     select_MCAS(MCAS);
 
@@ -133,6 +146,8 @@ function select_script(script_str)
             set_init_conds(10000, 240, 0, 0, 0, 0, 90);
         case "descend_and_turn"
             set_init_conds(15000, 240, 0, 0, 0, 0, 180);
+        case "turn_then_descend"
+            set_init_conds(15000, 240, 0, 0, 0, 0, 0);
         case "holding_pattern"
             set_init_conds(10000, 240, 0, 0, 0, 0, 90);
         case "takeoff"
@@ -141,7 +156,7 @@ function select_script(script_str)
             % settling. Starting plane close to resting height minimizes this.
             set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
         case "landing"
-            error("implement initial conditions in select_script function");
+            % error("implement initial conditions in select_script function")
             set_init_conds(10000, 240, 0, 0, 0, 0, 90);
         otherwise
             error("script not recognized for setting init_conds. Add script to switch/case.")

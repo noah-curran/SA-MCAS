@@ -6,6 +6,9 @@
         <property> propulsion/engine[0]/set-running </property>
         <property> propulsion/engine[1]/set-running </property>
 	    <property> gear/gear-cmd-norm </property>
+        <property> fcs/flap-cmd-norm </property>
+	    <property> fcs/brake-left-cmd </property>
+	    <property> fcs/brake-right-cmd </property>
 
 	<!-- Elevator -->
         <property> fcs/elevator-cmd-norm </property>
@@ -42,11 +45,14 @@
             <property> velocities/psidot-rad_sec </property>
             <property> attitude/phi-deg </property>
             <property> velocities/vc-kts </property>
-            <property> gear/gear-pos-norm </property>
+
+            <property> propulsion/engine/n1 </property>
+            <property> propulsion/engine[1]/n1 </property>
 
 	<!-- Elevator -->
             <property> position/h-sl-ft </property>
             <property> velocities/h-dot-fps </property>
+            <property> velocities/vc-kts </property>
             <property> attitude/theta-deg </property>
             <property> velocities/thetadot-rad_sec </property>
 
