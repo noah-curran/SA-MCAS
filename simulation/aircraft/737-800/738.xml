@@ -12,6 +12,9 @@
     </fileheader>
 
 <!--
+    TODO: http://www.b737.org.uk/737maxdiffs.htm
+            Make necessary changes to convert this to
+            the Boeing 737-MAX 800.
 	base datum - nose of aircraft. BWL at this point 208.1 in. Source - structure diagrams.
 -->
 
@@ -398,7 +401,7 @@
     </ground_reactions>
 
     <propulsion>
-        <engine file="CFM56">
+        <engine file="LEAP">
             <location unit="IN">
                 <x>  715.6 </x> <!-- value from simulator data -->
                 <y> -193.68 </y> <!-- value from simulator data -->
@@ -423,7 +426,7 @@
                 </orient>
             </thruster>
         </engine>
-        <engine file="CFM56">
+        <engine file="LEAP">
             <location unit="IN">
                 <x> 715.6 </x> <!-- value from simulator data -->
                 <y> 193.68 </y> <!-- value from simulator data -->

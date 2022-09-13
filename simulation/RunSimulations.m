@@ -79,7 +79,7 @@ clear; clear all;
 % Configure the simulation files
 num_sims = 0;   % leave at 0. Used for indexing simulations in the workspace
 
-anomaly_params = 'anomalies/EmptyInjection.json';
+anomaly_params = 'anomalies/AOA_Sudden_Injection.json';
 test_script = 'scripts/737_cruise'; % not used, JSBSim SFunction still wants to see this though
 aircraft_type = '737';
 init_conds = 'init_auto';   % set_init_conds writes to init_auto
@@ -101,7 +101,7 @@ Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "none", 300, 1);
+run_sim("takeoff", "mcas_old", 300, 1);
 
 %% FUNCTIONS
 
