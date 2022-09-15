@@ -95,28 +95,56 @@ Params = jsondecode(strJson).Injection;
 % Sort the anomalies and put it in Simulink
 T = struct2table(Params);
 sortedT = sortrows(T, 'StartTime');
+global sortedParams;
 sortedParams = table2struct(sortedT);
 
 Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "mcas_old", 300, 1);
+run_sim("takeoff", "mcas_new", 300, sortedParams, 1, true);
 
 %% FUNCTIONS
 
-function run_sim(script, MCAS, sim_time_sec, do_plot)
+function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_anomalies)
     select_script(script);
     select_MCAS(MCAS);
 
     output = sim('MCASSimulation', sim_time_sec);
+    
+    if do_no_anomalies
 
-    % Plotting only occurs if second parameter was supplied and equal to 1.
-    if ~exist("do_plot", 'var')
-        do_plot = 0;
-    end
-    if do_plot == 1
-        MCAS_Plotting(output);
+        % Set up no anomalies to inject.
+        fid = fopen('anomalies/EmptyInjection.json');
+        rawJson = fread(fid, inf);
+        strJson = char(rawJson');
+        fclose(fid);
+        Params = jsondecode(strJson).Injection;
+        
+        % Sort the no anomalies and put it in Simulink
+        T = struct2table(Params);
+        sortedT = sortrows(T, 'StartTime');
+        global sortedParams;
+        sortedParams = table2struct(sortedT);
+    
+        no_anomalies_output = sim('MCASSimulation', sim_time_sec);
+
+        % Plotting only occurs if second parameter was supplied and equal to 1.
+        if ~exist("do_plot", 'var')
+            do_plot = 0;
+        end
+        if do_plot == 1
+            MCAS_Plotting(output, injection_params, no_anomalies_output);
+        end
+    else
+
+        % Plotting only occurs if second parameter was supplied and equal to 1.
+        if ~exist("do_plot", 'var')
+            do_plot = 0;
+        end
+        if do_plot == 1
+            MCAS_Plotting(output, injection_params);
+        end
     end
 
     % Index simulation and send output data to MATLAB base workspace
