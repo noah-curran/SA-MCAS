@@ -1,82 +1,18 @@
-%% Script Descriptions 
-
-% move to seperate text file
-
-% need to implement: takeoff (more important; working but needs to be made more realistic; may need to adjust 
-% elevator controller vert. speed clipping values), landing
-
-% straight_and_level: Start at and maintain 10k ft, 240 kts, 90 deg heading
-
-% straight_and_level_accelerate: Start at and maintain 10k ft, 90 deg
-% heading. Start at 240 kts and accelerate to 300 kts when t=15s.
-
-% straight_and_climb: Start at and maintain 240 kts, 90 degree heading. Start at 10k ft and
-% climb to 15k ft when t=15 seconds.
-
-% straight_and_descend: Start at and maintain 240 kts, 90 degree heading. Start at 15k ft and
-% descend to 10k ft when t=15 seconds.
-
-% level_turns: Start at and maintain 240 kts, 10k ft. Start at 90 degree
-% heading and turn to 180 degree heading at t=15 seconds. Turn to 90 degree
-% heading once 180 degree heading is reached.
-
-% climb_and_turn: Start at and maintain 240 kts. Start at 10k ft and climb to 15k ft at t=15
-% seconds. Start at 90 degree heading and turn to 180 degree heading at t=15 seconds.
-
-% descend_and_turn: Start at and maintain 240 kts. Start at 15k ft and descend to 10k ft at t=15
-% seconds. Start at 180 degree heading and turn to 90 degree heading at t=15 seconds.
-
-% holding_pattern: Start at and maintain 10k ft, 240 kts. Start at heading of 90 degrees.
-% Hold heading 90 for 60 seconds, then begin a 180 degree turn to a heading of 270 degrees, turning 
-% towards the pilot's right. Fly heading 270 for 60 seconds, then perform a 180 degree turn to a 
-% heading of 90 degrees, again turning towards the pilot's right. Repeat indefinitely.
-% Standard turn rate in large aircraft like the B737 is lower than 3 deg/s.
-
-% takeoff: 
-% Begin at rest on ground (runway) with a 90 degree heading, elevator mode off, 
-% ailerons in heading mode holding 90 degrees, throttle in percent mode at 0 percent.
-% Begin with flap-cmd-norm to 0.375 (setting"5"; ~14 degrees), brake-left-cmd and brake-right-cmd set to 0. 
-% At t=15 seconds, set throttle percent to 0.5. When both engine n1 values exceed 40, set throttle
-% percent to 0.95 (this corresponds to n1 of 100).
-% When airspeed is above 150 kts, set elevator controller to pitch mode, targeting 10 degrees pitch. 
-% Once airspeed exceeds 170 kts and altitude exceeds 50 ft, retract landing gear and
-% set elevators to airspeed mode so that pitch is adjusted to hold airspeed at 170 kts.
-% When altitude exceeds 1000 ft, measure vertical speed and set elevator to vert_speed mode,
-% targeting half of measured vertical speed, and
-% put throttle controller into airspeed mode with reference airspeed of 250 kts.
-% Set flap-cmd-norm to 0.125 (setting "1"; ~8 degrees) when airspeed exceeds 190 kts. 
-% Set flap-cmd-norm to 0 when airspeed exceeds 210 kts.
-% When altitude exceeds 10k ft, set reference airspeed to 280 kts and reference altitude to desired cruising altitude.
-% https://www.flaps2approach.com/journal/2014/8/4/boeing-737-800-takeoff-procedure-simplified.html
-% http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm#:~:text=At%20V2%2C%20approximately%20150%20to,a%20positive%20rate%20of%20climb.
-
-% landing:
-% http://www.b737.org.uk/landingtechnique.htm#During_final_approach_-_after_glideslope_capture
-% https://community.infiniteflight.com/t/boeing-737-800-900-landing-tutorial/174031
-% http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm
-% https://www.youtube.com/watch?v=fwiAYZd-aDE&ab_channel=DenisOkan
-% https://www.youtube.com/watch?v=TJoSW3bJ-uc&ab_channel=JonathanBeckett
-% http://www.b737.org.uk/flapspeedschedule.htm
-% 
-% Begin at and hold 3000 ft, heading hold 90, airspeed hold 200 kts
-% Begin with flap-cmd-norm to 0.375 (setting "5")
-% Begin with gear down
-% Set target airspeed to 160 kts
-% When airspeed is lower than 170 kts, set flap-cmd-norm to 0.5 (setting
-% "10")
-% When airspeed is lower than 150 kts, set flap-cmd-norm to 0.625 (setting
-% "15")
-% Set elevator controller to vertical speed mode, seeking -11.67 fps (-700
-% fpm; approx. 3 degree glideslope)
-% Set target airspeed to 137 kts
-% When airspeed is lower than 140 kts, set flap-cmd-norm to 0.875
-% (setting "30")
-% Maintain speed and glideslope until altitude is less than 100 ft
-% (definitely below 'minimums' by then, ha!)
-
-% takeoff_stall: Same as takeoff script, except that at t=100 seconds,
-% set elevator controller to pitch mode, targeting pitch of 90 degrees
-% (straight up)
+% script descriptions found in Documentation/Pilot Simulator/...
+% ...Script Descriptions.txt
+% List of scripts:
+% straight_and_level
+% straight_and_level_accelerate
+% straight_and_climb
+% straight_and_descend
+% level_turns
+% climb_and_turn
+% descend_and_turn
+% turn_then_descend
+% holding_pattern
+% takeoff
+% takeoff_stall
+% landing
 
 %% CONFIGURATION
 
@@ -84,11 +20,10 @@ clear; clear all;
 
 % Configure the simulation files
 num_sims = 0;   % leave at 0. Used for indexing simulations in the workspace
-
 anomaly_params = 'anomalies/AOA_Sudden_Injection.json';
 test_script = 'scripts/737_cruise'; % not used, JSBSim SFunction still wants to see this though
 aircraft_type = '737';
-init_conds = 'init_auto';   % set_init_conds writes to init_auto
+init_conds = 'init_auto';   % function set_init_conds writes to init_auto
 port_config = 'port_config/port_config_1';
 
 % Set up anomalies to inject.
@@ -103,12 +38,11 @@ T = struct2table(Params);
 sortedT = sortrows(T, 'StartTime');
 global sortedParams;
 sortedParams = table2struct(sortedT);
-
 Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "mcas_new", 60, sortedParams, 0, true);
+run_sim("climb_and_turn", "mcas_new", 120, sortedParams, 1, true);
 
 %% FUNCTIONS
 
@@ -135,7 +69,7 @@ function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_an
     
         no_anomalies_output = sim('MCASSimulation', sim_time_sec);
 
-        % Plotting only occurs if second parameter was supplied and equal to 1.
+        % Plotting only occurs if do_plot was supplied and equal to 1.
         if ~exist("do_plot", 'var')
             do_plot = 0;
         end
@@ -144,7 +78,7 @@ function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_an
         end
     else
 
-        % Plotting only occurs if second parameter was supplied and equal to 1.
+        % Plotting only occurs if do_plot was supplied and equal to 1.
         if ~exist("do_plot", 'var')
             do_plot = 0;
         end
