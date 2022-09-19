@@ -1,4 +1,6 @@
-%% Script Descriptions
+%% Script Descriptions 
+
+% move to seperate text file
 
 % need to implement: takeoff (more important; working but needs to be made more realistic; may need to adjust 
 % elevator controller vert. speed clipping values), landing
@@ -48,7 +50,7 @@
 % https://www.flaps2approach.com/journal/2014/8/4/boeing-737-800-takeoff-procedure-simplified.html
 % http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm#:~:text=At%20V2%2C%20approximately%20150%20to,a%20positive%20rate%20of%20climb.
 
-% approach and landing:
+% landing:
 % http://www.b737.org.uk/landingtechnique.htm#During_final_approach_-_after_glideslope_capture
 % https://community.infiniteflight.com/t/boeing-737-800-900-landing-tutorial/174031
 % http://krepelka.com/fsweb/learningcenter/aircraft/flightnotesboeing737-800.htm
@@ -56,7 +58,7 @@
 % https://www.youtube.com/watch?v=TJoSW3bJ-uc&ab_channel=JonathanBeckett
 % http://www.b737.org.uk/flapspeedschedule.htm
 % 
-% Begin at and hold 3000 ft, heading hold 90, airspeed hold 180 kts
+% Begin at and hold 3000 ft, heading hold 90, airspeed hold 200 kts
 % Begin with flap-cmd-norm to 0.375 (setting "5")
 % Begin with gear down
 % Set target airspeed to 160 kts
@@ -71,6 +73,10 @@
 % (setting "30")
 % Maintain speed and glideslope until altitude is less than 100 ft
 % (definitely below 'minimums' by then, ha!)
+
+% takeoff_stall: Same as takeoff script, except that at t=100 seconds,
+% set elevator controller to pitch mode, targeting pitch of 90 degrees
+% (straight up)
 
 %% CONFIGURATION
 
@@ -102,7 +108,7 @@ Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "mcas_new", 300, sortedParams, 1, true);
+run_sim("takeoff", "mcas_new", 60, sortedParams, 0, true);
 
 %% FUNCTIONS
 
@@ -201,13 +207,13 @@ function select_script(script_str)
         case "holding_pattern"
             set_init_conds(10000, 240, 0, 0, 0, 0, 90);
         case "takeoff"
-            % resting height is a bit less than 3.7 ft. Setting initial height to 0 causes
-            % compression of landing gear, making plane jump up in the air before eventually
-            % settling. Starting plane close to resting height minimizes this.
+            % resting height is a bit less than 3.7 ft. Plane settles
+            % quickly with 3.7 starting "altitude"
+            set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
+        case "takeoff_stall"
             set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
         case "landing"
-            % error("implement initial conditions in select_script function")
-            set_init_conds(10000, 240, 0, 0, 0, 0, 90);
+            set_init_conds(3000, 200, 0, 0, 0, 0, 90);
         otherwise
             error("script not recognized for setting init_conds. Add script to switch/case.")
     end

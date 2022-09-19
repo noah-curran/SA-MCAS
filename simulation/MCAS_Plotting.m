@@ -22,7 +22,11 @@ roll_rate = output_name.roll_rate.Data(:);
 beta = output_name.beta.Data(:);
 vc = output_name.vc.Data(:);
 throttle_cmd = output_name.throttle_0_cmd.Data();
-elevator_cmd = output_name.elevator_cmd_norm.Data(:);
+elevator_cmd = output_name.pilot_elevator_cmd.Data(:);
+
+latitude = output_name.lat_deg.Data(:);
+longitude = output_name.long_deg.Data(:);
+alt_asl_120hz = output_name.altitude_asl_120hz.Data(:);
 
 JT610_time_sec = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "D2:D845");
 JT610_altitude = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "I2:I845");
@@ -41,33 +45,43 @@ n_vc = no_anomalies_output.vc.Data(:);
 n_throttle_cmd = no_anomalies_output.throttle_0_cmd.Data();
 
 %% Plotting
-
-i_start_t = find(time>=anomaly_params(1).StartTime,1);
-i_end_t = find(time>=anomaly_params(1).EndTime,1);
-
 clf;
-% yyaxis right;
-% plot(time, elevator_cmd, 'LineWidth', 0.5);
-% ylabel('Pilot Elevator Control [normalized]');
-% yyaxis left;
-% hold on;
-plot(n_time, n_h_asl, 'LineWidth', 1, 'Color', 'g', 'LineStyle', '-');
-hold on;
-plot(time(t_start_i:i_start_t), h_asl(t_start_i:i_start_t), 'LineWidth', 2, 'Color', [0.00,0.45,0.74], 'LineStyle', '-');
-hold on;
-plot(time(i_start_t:i_end_t), h_asl(i_start_t:i_end_t), 'LineWidth', 2, 'Color', [1.00,0.00,0.00], 'LineStyle', '-');
-hold on;
-plot(time(i_end_t:t_end_i), h_asl(i_end_t:t_end_i), 'LineWidth', 2, 'Color', [0.30,0.75,0.93], 'LineStyle', '-');
-% set(gca, 'FontSize', 8, 'Units', 'inches', 'position', [0.13,0.110462962962963,3.75,3.0]);
-set(gca, 'FontSize', 8);
 
-xlabel("Time (sec)", 'FontSize', 10);
-ylabel("Altitude (ft)", 'FontSize', 10);
-ylim([0 3000]);
-xlim([50 135]);
-legend('Flight w/o erroneous AoA sensor', 'Flight before erroneous AoA sensor', ...
-    'Flight during erroneous AoA sensor', 'Flight after erroneous AoA sensor', ...
-    'FontSize', 8, 'Location', 'southwest');
+hold on; % make plots into functions
+plot3(longitude, latitude, alt_asl_120hz);
+xlabel("Longitude (deg)");
+ylabel("Latitude (deg)");
+zlabel("Altitude ASL (ft)");
+xlim(axis_range(longitude, 0.0001));
+ylim(axis_range(latitude, 0.0001));
+zlim(axis_range(alt_asl_120hz, 500));
+grid on;
+view(45, 45);
+% %axis vis3d; % why is this making the axis titles hard to see?
+
+% i_start_t = find(time>=anomaly_params(1).StartTime,1);
+% i_end_t = find(time>=anomaly_params(1).EndTime,1);
+% % yyaxis right;
+% % plot(time, elevator_cmd, 'LineWidth', 0.5);
+% % ylabel('Pilot Elevator Control [normalized]');
+% % yyaxis left;
+% % hold on;
+% plot(n_time, n_h_asl, 'LineWidth', 1, 'Color', 'g', 'LineStyle', '-');
+% hold on;
+% plot(time(t_start_i:i_start_t), h_asl(t_start_i:i_start_t), 'LineWidth', 2, 'Color', [0.00,0.45,0.74], 'LineStyle', '-');
+% hold on;
+% plot(time(i_start_t:i_end_t), h_asl(i_start_t:i_end_t), 'LineWidth', 2, 'Color', [1.00,0.00,0.00], 'LineStyle', '-');
+% hold on;
+% plot(time(i_end_t:t_end_i), h_asl(i_end_t:t_end_i), 'LineWidth', 2, 'Color', [0.30,0.75,0.93], 'LineStyle', '-');
+% % set(gca, 'FontSize', 8, 'Units', 'inches', 'position', [0.13,0.110462962962963,3.75,3.0]);
+% set(gca, 'FontSize', 8);
+% xlabel("Time (sec)", 'FontSize', 10);
+% ylabel("Altitude (ft)", 'FontSize', 10);
+% ylim([0 3000]);
+% xlim([50 135]);
+% legend('Flight w/o erroneous AoA sensor', 'Flight before erroneous AoA sensor', ...
+%     'Flight during erroneous AoA sensor', 'Flight after erroneous AoA sensor', ...
+%     'FontSize', 8, 'Location', 'southwest');
 
 % hold on;
 % plot(JT610_time_sec+50, JT610_altitude, 'LineWidth', 2, 'Color', 'b');
@@ -79,72 +93,14 @@ legend('Flight w/o erroneous AoA sensor', 'Flight before erroneous AoA sensor', 
 % ylabel("Altitude (ft)", 'FontSize', 32);
 % legend("Crash Flight Data", "Simulation (stretched by factor of 2.8)", 'Location','northwest', 'FontSize', 30);
 
+end % function
 
-% hold on;
-% plot(time, h_asl, 'LineWidth', 2, 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% set(gca, 'FontSize', 20);
-% ylabel("Altitude (ft)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-% yyaxis right;
-% hold on;
-% plot(time, vc, 'LineWidth', 2);
-% ylabel("Airspeed (kts)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-% xline(17.5, '--', 'LineWidth', 2, 'Color', 'k');
-% xline(52, '--', 'LineWidth', 2, 'Color', 'k');
-% xline(75, '--', 'LineWidth', 2, 'Color', 'k');
+function axis_lims = axis_range(x, min_range)
+range = 1.1 * (max(x) - min(x));
+range = max(range, min_range);
 
-% hold on;
-% plot(time, h_asl, 'LineWidth', 2, 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% set(gca, 'FontSize', 20);
-% ylabel("Altitude (ft)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
+lower_bound = mean(x) - 0.5*range;
+upper_bound = mean(x) + 0.5*range;
 
-% hold on;
-% plot(time, h_asl, 'LineWidth', 2, 'Color', 'k');
-% % plot(time, 15000*ones(1, numel(H_ASL)), 'LineWidth', 2, 'LineStyle','--', 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% % ylim([9950, 16000]);
-% set(gca, 'FontSize', 20);
-% ylabel("Altitude (ft)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-
-% figure;
-% hold on;
-% plot(time, heading, 'LineWidth', 2, 'Color', 'k');
-% % plot(time, 90*ones(1, numel(heading)), 'LineWidth', 2, 'LineStyle','--', 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% % ylim([0, 100]);
-% set(gca, 'FontSize', 20);
-% ylabel("Heading (deg)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-
-% figure;
-% hold on;
-% plot(time, vc, 'LineWidth', 2, 'Color', '--k');
-% % plot(time, 240*ones(1, numel(heading)), 'LineWidth', 2, 'LineStyle','--', 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% % ylim([200, 250]);
-% set(gca, 'FontSize', 20);
-% ylabel("Calibrated Airspeed (kts)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-
-% figure;
-% hold on;
-% plot(time, throttle_cmd, 'LineWidth', 2, 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% set(gca, 'FontSize', 20);
-% ylabel("Throttle Cmd (norm)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-
-% figure;
-% hold on;
-% plot(time, h_dot, 'LineWidth', 2, 'Color', 'k');
-% xlim([start_time_s, end_time_s]);
-% set(gca, 'FontSize', 20);
-% ylabel("Vertical Speed (fps)", 'FontSize', 32);
-% xlabel("Time (sec)", 'FontSize', 32);
-
+axis_lims = [lower_bound, upper_bound];
 end % function

@@ -5,10 +5,10 @@
 	<!-- Misc. -->
         <property> propulsion/engine[0]/set-running </property>
         <property> propulsion/engine[1]/set-running </property>
-	    <property> gear/gear-cmd-norm </property>
+	<property> gear/gear-cmd-norm </property>
         <property> fcs/flap-cmd-norm </property>
-	    <property> fcs/brake-left-cmd </property>
-	    <property> fcs/brake-right-cmd </property>
+	<property> fcs/brake-left-cmd </property>
+	<property> fcs/brake-right-cmd </property>
 
 	<!-- Elevator -->
         <property> fcs/elevator-cmd-norm </property>
@@ -23,7 +23,7 @@
         <property> fcs/throttle-cmd-norm[0] </property>
         <property> fcs/throttle-cmd-norm[1] </property>
 
-    <!-- Horizontal Stabilizer -->
+    	<!-- Horizontal Stabilizer -->
         <property> fcs/pitch-trim-cmd-norm </property>
         <!--<property> fcs/pitch-trim-sum </property>-->
     </input>
@@ -69,6 +69,12 @@
 
 	<!-- Throttles -->
             <property> velocities/vc-kts </property>
+        </output>
+
+	<output name="Trajectory Plotting">
+            <property> position/lat-gc-deg </property>
+	    <property> position/long-gc-deg </property>
+	    <property> position/h-sl-ft </property>
         </output>
     </outputs>
 
