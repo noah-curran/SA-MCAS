@@ -26,6 +26,7 @@
     	<!-- Horizontal Stabilizer -->
         <property> fcs/pitch-trim-cmd-norm </property>
         <!--<property> fcs/pitch-trim-sum </property>-->
+	<property> fcs/MCAS-trim-enabled </property>
     </input>
 
     <outputs>
@@ -75,6 +76,12 @@
             <property> position/lat-gc-deg </property>
 	    <property> position/long-gc-deg </property>
 	    <property> position/h-sl-ft </property>
+        </output>
+
+	<output name="HS Controls Debug">
+	    <property> fcs/stabilizer/mcas-timer-active </property>
+	    <property> fcs/stabilizer/stabilizer-pos-unit </property>
+	    <property> fcs/elevator-cmd-norm </property>
         </output>
     </outputs>
 

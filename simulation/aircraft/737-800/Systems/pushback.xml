@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <system name="pushback">
- <property>/sim/model/pushback/target-speed-fps</property>
+
  <channel name="Pushback">
 
    <switch name="systems/pushback/linked">
@@ -36,4 +36,3 @@
 
  </channel>
 </system>
-
