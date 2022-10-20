@@ -42,7 +42,7 @@ Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "none", 120, sortedParams, 1, false);
+run_sim("takeoff", "none", 200, sortedParams, 1, false);
 
 %% FUNCTIONS
 

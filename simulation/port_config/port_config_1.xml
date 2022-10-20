@@ -23,9 +23,11 @@
         <property> fcs/throttle-cmd-norm[0] </property>
         <property> fcs/throttle-cmd-norm[1] </property>
 
-    	<!-- Horizontal Stabilizer -->
+	<!-- Horizontal Stabilizer From Pilot -->
+	<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
+
+    	<!-- Horizontal Stabilizer From MCAS -->
         <property> fcs/pitch-trim-cmd-norm </property>
-        <!--<property> fcs/pitch-trim-sum </property>-->
 	<property> fcs/MCAS-trim-enabled </property>
     </input>
 
@@ -68,8 +70,11 @@
 	<!-- Rudder -->
             <property> aero/beta-deg </property>
 
-	<!-- Throttles -->
+	<!-- Throttle -->
             <property> velocities/vc-kts </property>
+
+	<!-- Horizontal Stabilizer -->
+            <property> fcs/elevator-cmd-norm </property>
         </output>
 
 	<output name="Trajectory Plotting">
@@ -79,8 +84,10 @@
         </output>
 
 	<output name="HS Controls Debug">
+	    <property> fcs/stabilizer/mcas-active </property>
 	    <property> fcs/stabilizer/mcas-timer-active </property>
 	    <property> fcs/stabilizer/stabilizer-pos-unit </property>
+	    <property> fcs/stabilizer/stab-target </property>
 	    <property> fcs/elevator-cmd-norm </property>
         </output>
     </outputs>

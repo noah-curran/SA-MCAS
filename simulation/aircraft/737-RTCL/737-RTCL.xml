@@ -449,25 +449,48 @@
 
 
 
-<property value="1"> fcs/stabilizer/trim-direction </property> <!--temporary to test partial HS implementation -->
+<property value="1"> fcs/stabilizer/trim-direction </property> 				<!--temporary to test partial HS implementation -->
+
+<property value="0.38"> fcs/stabilizer/default-trim-rate </property>
+<property value="0.2"> fcs/stabilizer/no-flaps-trim-rate </property>
+<property value="0.27"> fcs/stabilizer/mcas-trim-rate </property>
+<property value="2.5"> fcs/stabilizer/mcas-trim-amount </property>
+<property value="5"> fcs/stabilizer/mcas-min-delay </property>
 
 	<channel name="Stabilizer">
 
-<!--************ \/ \/ Converted from nasal code \/ \/ ***********-->
-
-	<switch name="fcs/stabilizer/mcas-active">			<!--temporary to test partial HS implementation -->
-		<default value="0"/>
-		<test value="1">
-			simulation/sim-time-sec GE 100
+	<switch name="fcs/stabilizer/stabilizer-pos-unit">				<!-- this should somehow be done from the scripting module -->
+		<default value="fcs/stabilizer/stabilizer-pos-unit"/>
+		<test value="6">
+			simulation/sim-time-sec LE 1
+		</test>
+	</switch>
+	<switch name="fcs/stabilizer/stab-target">
+		<default value="fcs/stabilizer/stab-target"/>
+		<test value="6">
+			simulation/sim-time-sec LE 1
 		</test>
 	</switch>
 
-<!-- do-mcas-fire=1 when rising edge detected in mcas-active -->
-	<fcs_function name="fcs/stabilizer/mcas-timer-end-plus-delay">
+
+<!--*************** MCAS \/ \/ *******************-->
+
+	<switch name="fcs/stabilizer/mcas-active">					<!--temporary to test partial HS implementation -->
+		<default value="0"/>
+		<!--test logic="OR" value="1">
+		<test logic="AND" value="1">
+			simulation/sim-time-sec GE 70
+			simulation/sim-time-sec LE 71
+		</test>
+		</test-->
+	</switch>
+
+<!-- HS command pulses from MCAS activations -->
+	<fcs_function name="fcs/stabilizer/mcas-min-next-activation-time">
 	<function>
 		<sum>
 			<property> fcs/stabilizer/mcas-timer-end-time </property>
-			<value> 5 </value>
+			<property> fcs/stabilizer/mcas-min-delay </property>	
 		</sum>
 	</function>
 	</fcs_function>
@@ -475,33 +498,28 @@
 	<switch name="fcs/stabilizer/no-recent-mcas-fire">
 		<default value="0"/>
 		<test value="1">
-			simulation/sim-time-sec GE fcs/stabilizer/mcas-timer-end-plus-delay
+			simulation/sim-time-sec GE fcs/stabilizer/mcas-min-next-activation-time
 		</test>
 	</switch>
 
 	<fcs_function name="fcs/stabilizer/do-mcas-fire">
 	<function>
 		<product>
-		<property> fcs/stabilizer/no-recent-mcas-fire </property>
-		<sum>
+			<property> fcs/stabilizer/no-recent-mcas-fire </property>
 			<property> fcs/stabilizer/mcas-active </property>
-			<property> -fcs/stabilizer/mcas-active-old </property>
-		</sum>
 		</product>
 	</function>
 	</fcs_function>
 
-	<pure_gain name="fcs/stabilizer/mcas-active-old">
-		<input> fcs/stabilizer/mcas-active </input>
-		<gain> 1 </gain>
-	</pure_gain>
-
-<!-- timer-active=1 for some duration (10) after mcas fires, then back to 0 -->
+<!-- timer-active=1 for some duration after mcas fires, then back to 0 -->
 	<fcs_function name="fcs/stabilizer/now-plus-mcas-timer">
 	<function>
 		<sum>
 			<property> simulation/sim-time-sec </property>
-			<value> 10 </value>							<!-- change value do 2.5/trim-rate -->
+			<quotient>
+				<property> fcs/stabilizer/mcas-trim-amount </property>
+				<property> fcs/stabilizer/mcas-trim-rate </property>
+			</quotient>
 		</sum>
 	</function>
 	</fcs_function>
@@ -520,12 +538,15 @@
 		</test>
 	</switch>
 
-<!-- stab-target += 2.5 degrees when mcas fires -->
+<!-- increment stab-target when mcas fires -->
 	<fcs_function name="fcs/stabilizer/stab-target-plus-offset">
 	<function>
 		<sum>
 			<property> fcs/stabilizer/stab-target </property>
-			<value> 2.5 </value>
+			<product>
+				<property> fcs/stabilizer/mcas-trim-amount </property>
+	    			<property> fcs/stabilizer/trim-direction </property>
+			</product>
 		</sum>
 	</function>
 	</fcs_function>
@@ -537,68 +558,89 @@
 		</test>
 	</switch>
 
-<!-- do-trim = 1 for 10 seconds after mcas fires -->
+<!-- do-trim = 1 for duration after mcas fires -->
 	<switch name="fcs/stabilizer/do-trim">
 		<default value="0"/>
-		<test value="1">
+		<test logic="OR" value="1">
 			fcs/stabilizer/mcas-timer-active == 1
+			fcs/stabilizer/pilot-trim-stab-target-diff NE 0
 		</test>
 	</switch>
 
 <!-- trim rate decision -->
 	<switch name="fcs/stabilizer/trim-rate">
-	<!-- trim rate=0.27 if mcas active, or 0.2 if flaps position=0. Otherwise trim-rate=0.38. -->
-	<!-- If MCAS test evaulates true, then flaps test is skipped. -->
-		<default value="0.38"/>
-		<test value="0.27">
+		<default value="fcs/stabilizer/default-trim-rate"/>
+		<test value="fcs/stabilizer/mcas-trim-rate">
 			fcs/stabilizer/mcas-timer-active == 1
 		</test>
-		<test value="0.2">
+		<test value="fcs/stabilizer/no-flaps-trim-rate">
 			fcs/flap-pos-norm == 0
 		</test>
 	</switch>
 
+<!--*************** MCAS /\ /\ *******************-->
+
+<!--*************** PILOT TRIM \/ \/ *******************-->
+
+	<switch name="fcs/stabilizer/pilot-trim-stab-target-diff">
+		<default value="fcs/stabilizer/pilot-trim-stab-target-diff"/>
+	</switch>
+
+	<fcs_function name="fcs/stabilizer/stab-target">
+	<function>
+		<sum>
+			<property> fcs/stabilizer/stab-target </property>
+			<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
+		</sum>
+	</function>
+	</fcs_function>
+
+<!--*************** PILOT TRIM /\ /\ *******************-->
+
 	<fcs_function name="fcs/stabilizer/trim-rate-total">
 	<function>	
 		<product>
-			<property> fcs/stabilizer/trim-rate </property>	
-			<property> fcs/stabilizer/trim-direction </property>	
-			<property> fcs/stabilizer/do-trim </property>	
+			<property> fcs/stabilizer/trim-rate </property>		
+			<property> fcs/stabilizer/do-trim </property>
 		</product>
 	</function>
 	</fcs_function>
 
-<!--************ /\ /\ Converted from nasal code /\ /\ ***********-->
-
-          <pure_gain name="fcs/stabilizer/trim-rate-per-tick">
-            <input>fcs/stabilizer/trim-rate-total</input>
-            <gain>simulation/dt</gain>
-          </pure_gain>
+	<fcs_function name="fcs/stabilizer/trim-rate-per-tick-magnitude">
+	<function>
+	<product>
+		<abs>
+			<property> fcs/stabilizer/trim-rate-total </property>
+		</abs>
+		<property> simulation/dt </property>
+	</product>
+	</function>
+	</fcs_function>
 
           <summer name="fcs/stabilizer/errorfree-stab-error">
-            <input> fcs/stabilizer/stab-target </input>
-            <input>-fcs/stabilizer-pos-unit </input>
+            <input>  fcs/stabilizer/stab-target </input>
+            <input> -fcs/stabilizer/stabilizer-pos-unit </input>
             <clipto>
-              <min>-fcs/stabilizer/trim-rate-per-tick</min>
-              <max> fcs/stabilizer/trim-rate-per-tick</max>
+              <min> -fcs/stabilizer/trim-rate-per-tick-magnitude </min>
+              <max>  fcs/stabilizer/trim-rate-per-tick-magnitude </max>
             </clipto>
-            <output>fcs/stabilizer/stab-error</output>
+            <output> fcs/stabilizer/stab-error </output>
           </summer>
 
           <summer name="fcs/stabilizer/stabilizer-pos-unit">
-            <input> fcs/stabilizer-pos-unit </input>
+            <input> fcs/stabilizer/stabilizer-pos-unit </input>
             <input> fcs/stabilizer/stab-error </input>
-            <output>fcs/stabilizer-pos-unit</output>
+            <output> fcs/stabilizer/stabilizer-pos-unit </output>
           </summer>
 
           <fcs_function name="fcs/stab">
             <function>
               <product>
                 <sum>
-                    <property>fcs/stabilizer-pos-unit</property>
-                    <value>-4</value>
+                    <property> fcs/stabilizer/stabilizer-pos-unit </property>
+                    <value> -4 </value>
                 </sum>
-                <value>-1</value>
+                <value> -1 </value>
               </product>
             </function>
           </fcs_function>
