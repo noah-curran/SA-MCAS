@@ -122,14 +122,14 @@
         </contact>
     </ground_reactions>
     <propulsion>
-        <engine file="CFM56">
+        <engine file="LEAP">
             <feed>0</feed>
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x>  540 </x>
+                    <x>  531 </x>	<!-- 9 inches forward (structural frame x axis increases from nose to tail) -->
                     <y> -193 </y>
-                    <z>  -40 </z>
+                    <z>  -41 </z>	<!-- 1 inch downward (structural frame z axis is positive upwards) -->
                 </location>
                 <orient unit="DEG">
                     <roll>  0 </roll>
@@ -138,14 +138,14 @@
                 </orient>
             </thruster>
         </engine>
-        <engine file="CFM56">
+        <engine file="LEAP">
             <feed>1</feed>
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x> 540 </x>
+                    <x> 531 </x>
                     <y> 193 </y>
-                    <z> -40 </z>
+                    <z> -41 </z>
                 </location>
                 <orient unit="DEG">
                     <roll>  0 </roll>
@@ -203,8 +203,8 @@
             <aerosurface_scale name="Elevator Control">
                 <input>fcs/pitch-trim-sum</input>
                 <range>
-                    <min>-0.3</min>
-                    <max> 0.3</max>
+                    <min>-0.424</min>				<!-- limit for "nose up" elevator position -->
+                    <max> 0.316</max>				<!-- limit for "nose down" elevator position -->
                 </range>
                 <output>fcs/elevator-pos-rad</output>
             </aerosurface_scale>
@@ -212,8 +212,8 @@
             <aerosurface_scale name="Elevator Normalized">
                 <input>fcs/elevator-pos-rad</input>
                 <domain>
-                    <min>-0.3</min>
-                    <max> 0.3</max>
+                    <min>-0.424</min>				<!-- limit for "nose up" elevator position -->
+                    <max> 0.316</max>				<!-- limit for "nose down" elevator position -->
                 </domain>
                 <range>
                     <min>-1</min>
@@ -451,26 +451,13 @@
 
 <property value="1"> fcs/stabilizer/trim-direction </property> 				<!--temporary to test partial HS implementation -->
 
-<property value="0.38"> fcs/stabilizer/default-trim-rate </property>
+<property value="0.38"> fcs/stabilizer/flaps-trim-rate </property>
 <property value="0.2"> fcs/stabilizer/no-flaps-trim-rate </property>
 <property value="0.27"> fcs/stabilizer/mcas-trim-rate </property>
 <property value="2.5"> fcs/stabilizer/mcas-trim-amount </property>
 <property value="5"> fcs/stabilizer/mcas-min-delay </property>
 
 	<channel name="Stabilizer">
-
-	<switch name="fcs/stabilizer/stabilizer-pos-unit">				<!-- this should somehow be done from the scripting module -->
-		<default value="fcs/stabilizer/stabilizer-pos-unit"/>
-		<test value="6">
-			simulation/sim-time-sec LE 1
-		</test>
-	</switch>
-	<switch name="fcs/stabilizer/stab-target">
-		<default value="fcs/stabilizer/stab-target"/>
-		<test value="6">
-			simulation/sim-time-sec LE 1
-		</test>
-	</switch>
 
 
 <!--*************** MCAS \/ \/ *******************-->
@@ -483,6 +470,20 @@
 			simulation/sim-time-sec LE 71
 		</test>
 		</test-->
+	</switch>
+
+	<switch name="fcs/stabilizer/stab-target-unit">
+		<default value="fcs/stabilizer/stab-target-unit"/>
+		<test value="6">
+			simulation/sim-time-sec LE 0.1
+		</test>
+	</switch>
+
+	<switch name="fcs/stabilizer/stabilizer-pos-unit">
+		<default value="fcs/stabilizer/stabilizer-pos-unit"/>
+		<test value="6">
+			simulation/sim-time-sec LE 0.1
+		</test>
 	</switch>
 
 <!-- HS command pulses from MCAS activations -->
@@ -542,7 +543,7 @@
 	<fcs_function name="fcs/stabilizer/stab-target-plus-offset">
 	<function>
 		<sum>
-			<property> fcs/stabilizer/stab-target </property>
+			<property> fcs/stabilizer/stab-target-unit </property>
 			<product>
 				<property> fcs/stabilizer/mcas-trim-amount </property>
 	    			<property> fcs/stabilizer/trim-direction </property>
@@ -551,11 +552,15 @@
 	</function>
 	</fcs_function>
 
-	<switch name="fcs/stabilizer/stab-target">
-		<default value="fcs/stabilizer/stab-target"/>
+	<switch name="fcs/stabilizer/stab-target-unit">
+		<default value="fcs/stabilizer/stab-target-unit"/>
 		<test value="fcs/stabilizer/stab-target-plus-offset">
 			fcs/stabilizer/do-mcas-fire == 1
 		</test>
+		<clipto>
+			<min> 0 </min>
+			<max> 17 </max>
+		</clipto>
 	</switch>
 
 <!-- do-trim = 1 for duration after mcas fires -->
@@ -569,7 +574,7 @@
 
 <!-- trim rate decision -->
 	<switch name="fcs/stabilizer/trim-rate">
-		<default value="fcs/stabilizer/default-trim-rate"/>
+		<default value="fcs/stabilizer/flaps-trim-rate"/>
 		<test value="fcs/stabilizer/mcas-trim-rate">
 			fcs/stabilizer/mcas-timer-active == 1
 		</test>
@@ -586,13 +591,18 @@
 		<default value="fcs/stabilizer/pilot-trim-stab-target-diff"/>
 	</switch>
 
-	<fcs_function name="fcs/stabilizer/stab-target">
+	<fcs_function name="fcs/stabilizer/stab-target-unit">
 	<function>
 		<sum>
-			<property> fcs/stabilizer/stab-target </property>
+			<property> fcs/stabilizer/stab-target-unit </property>
 			<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
 		</sum>
+		<!--value> 0 </value-->
 	</function>
+	<clipto>
+		<min> 0 </min>
+		<max> 17 </max>
+	</clipto>
 	</fcs_function>
 
 <!--*************** PILOT TRIM /\ /\ *******************-->
@@ -602,6 +612,7 @@
 		<product>
 			<property> fcs/stabilizer/trim-rate </property>		
 			<property> fcs/stabilizer/do-trim </property>
+			<!--value> 1 </value-->
 		</product>
 	</function>
 	</fcs_function>
@@ -618,7 +629,7 @@
 	</fcs_function>
 
           <summer name="fcs/stabilizer/errorfree-stab-error">
-            <input>  fcs/stabilizer/stab-target </input>
+            <input>  fcs/stabilizer/stab-target-unit </input>
             <input> -fcs/stabilizer/stabilizer-pos-unit </input>
             <clipto>
               <min> -fcs/stabilizer/trim-rate-per-tick-magnitude </min>
@@ -638,7 +649,7 @@
               <product>
                 <sum>
                     <property> fcs/stabilizer/stabilizer-pos-unit </property>
-                    <value> -4 </value>
+                    <value> -4.2 </value>
                 </sum>
                 <value> -1 </value>
               </product>

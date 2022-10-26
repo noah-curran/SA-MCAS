@@ -4,7 +4,7 @@
 
 function set_init_conds(altitude, vc, latitude, longitude, pitch, roll, heading)
 %% Open File
-init_cond_file = fopen("aircraft/737/init_auto.xml", "W");
+init_cond_file = fopen("aircraft/737-RTCL/init_auto.xml", "W");
 
 newlineFormatSpec = "\n";
 
