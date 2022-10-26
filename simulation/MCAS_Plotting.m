@@ -27,6 +27,9 @@ elevator_cmd = output_name.pilot_elevator_cmd.Data(:);
 latitude = output_name.lat_deg.Data(:);
 longitude = output_name.long_deg.Data(:);
 alt_asl_120hz = output_name.altitude_asl_120hz.Data(:);
+alpha_deg = output_name.alpha_deg.Data(:);
+
+a_pilot_z_ft_sec2 = output_name.a_pilot_z_ft_sec2.Data(:);
 
 JT610_time_sec = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "D2:D845");
 JT610_altitude = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "I2:I845");
@@ -51,27 +54,56 @@ plot_alt_speed(output_name);
 
 % i_start_t = find(time>=anomaly_params(1).StartTime,1);
 % i_end_t = find(time>=anomaly_params(1).EndTime,1);
-% % yyaxis right;
-% % plot(time, elevator_cmd, 'LineWidth', 0.5);
-% % ylabel('Pilot Elevator Control [normalized]');
-% % yyaxis left;
-% % hold on;
-% plot(n_time, n_h_asl, 'LineWidth', 1, 'Color', 'g', 'LineStyle', '-');
+% yyaxis right;
+% plot(time, elevator_cmd, 'LineWidth', 0.5);
+% hold on;
+% time_t = linspace(0, 300, length(alpha_deg));
+% plot(time_t, alpha_deg, 'LineWidth', 0.5, 'LineStyle', '-');
+% ylabel('AoA');
+% yyaxis left;
+% hold on;
+% plot(time, h_asl, 'LineWidth', 1, 'Color', 'g', 'LineStyle', '-');
 % hold on;
 % plot(time(t_start_i:i_start_t), h_asl(t_start_i:i_start_t), 'LineWidth', 2, 'Color', [0.00,0.45,0.74], 'LineStyle', '-');
 % hold on;
 % plot(time(i_start_t:i_end_t), h_asl(i_start_t:i_end_t), 'LineWidth', 2, 'Color', [1.00,0.00,0.00], 'LineStyle', '-');
 % hold on;
 % plot(time(i_end_t:t_end_i), h_asl(i_end_t:t_end_i), 'LineWidth', 2, 'Color', [0.30,0.75,0.93], 'LineStyle', '-');
-% % set(gca, 'FontSize', 8, 'Units', 'inches', 'position', [0.13,0.110462962962963,3.75,3.0]);
+% set(gca, 'FontSize', 8, 'Units', 'inches', 'position', [0.13,0.110462962962963,3.75,3.0]);
 % set(gca, 'FontSize', 8);
 % xlabel("Time (sec)", 'FontSize', 10);
 % ylabel("Altitude (ft)", 'FontSize', 10);
-% ylim([0 3000]);
-% xlim([50 135]);
+% ylim([0 8000]);
+% xlim([50 300]);
 % legend('Flight w/o erroneous AoA sensor', 'Flight before erroneous AoA sensor', ...
 %     'Flight during erroneous AoA sensor', 'Flight after erroneous AoA sensor', ...
 %     'FontSize', 8, 'Location', 'southwest');
+% legend('Flight stalling', ...
+%     'FontSize', 8, 'Location', 'southwest');
+
+% hold on;
+% plot(JT610_time_sec+50, JT610_altitude, 'LineWidth', 2, 'Color', 'b');
+% plot((time-10), h_asl, 'LineWidth', 2, 'Color', 'r');
+% xlim([45, 800]);
+% ylim([0, 6000]);
+% set(gca, 'FontSize', 8);
+% xlabel("Time (sec)", 'FontSize', 10);
+% ylabel("Altitude (ft)", 'FontSize', 10);
+% legend("JT610 Flight Data", "Simulation", 'Location','northwest', 'FontSize', 8);
+
+% yyaxis right;
+% hold on;
+% plot((time), pitch, 'LineWidth', 2);
+% ylabel("Pitch (degrees)", 'FontSize', 10);
+% yyaxis left;
+% hold on;
+% plot((time), h_asl, 'LineWidth', 2);
+% xlim([45, 210]);
+% ylim([0, 10000]);
+% set(gca, 'FontSize', 8);
+% xlabel("Time (sec)", 'FontSize', 10);
+% ylabel("Altitude (ft)", 'FontSize', 10);
+% legend("JT610 Flight Data", "Simulation", 'Location','northwest', 'FontSize', 8);
 
 end % function
 

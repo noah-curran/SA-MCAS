@@ -20,7 +20,7 @@ clear; clear all;
 
 % Configure the simulation files
 num_sims = 0;   % leave at 0. Used for indexing simulations in the workspace
-anomaly_params = 'anomalies/AoA_Sudden_Injection.json';
+anomaly_params = 'anomalies/EmptyInjection.json';
 test_script = 'scripts/737_cruise'; % not used, JSBSim SFunction still wants to see this though
 aircraft_type = '737-RTCL';
 init_conds = 'init_auto';   % function set_init_conds writes to init_auto
@@ -143,6 +143,8 @@ function select_script(script_str)
         case "takeoff"
             % resting height is a bit less than 3.7 ft. Plane settles
             % quickly with 3.7 starting "altitude"
+            set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
+        case "takeoff_JT610"
             set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
         case "takeoff_stall"
             set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
