@@ -1,0 +1,10 @@
+1. Downloaded fresh JSBSim install using windows installer
+2. Replaced vanilla JSBSim matlab folder with matlab folder from Noah's repo
+3. Ran the following script from within the matlab folder:
+mex -v -R2017b  JSBSim_SFunction.cpp JSBSimInterface.cpp -I"..\include" -L"..\lib" -lJSBSim wsock32.lib ws2_32.lib
+4. Removed ".get()" from lines ~40-80 of JSBSimInterface.cpp
+5. Installed Visual Studio Community with 'C++ for desktop development' addition
+6. Ran the following script to set mex compiler to "Microsoft Visual C++ 2022":
+mex -setup CPP
+7. Replaced vanilla include and lib folders with Noah's include and lib folders
+8. JSBSim SFunction now compiled successfully.

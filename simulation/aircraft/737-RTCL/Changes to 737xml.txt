@@ -1,0 +1,4 @@
+ONLY the following were brought over from the 737-800 model into the vanilla model. 
+- Copied over lines 1153-1188 from 738.xml (stabilizer channel).
+- Copied over lines 1742-1751 from 738.xml (stabilizer lift).
+- Copied over lines 2005-2012 from 738.xml (stabilizer pitch moment).
