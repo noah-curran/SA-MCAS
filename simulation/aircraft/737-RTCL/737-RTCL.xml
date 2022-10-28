@@ -461,16 +461,10 @@
 
 
 <!--*************** MCAS \/ \/ *******************-->
-
-	<!--switch name="fcs/stabilizer/mcas-active">					<!--temporary to test partial HS implementation -->
-		<default value="0"/>
-		<test logic="OR" value="1">
-		<test logic="AND" value="1">
-			simulation/sim-time-sec GE 70
-			simulation/sim-time-sec LE 71
-		</test>
-		</test>
-	</switch-->
+	
+	<switch name="fcs/stabilizer/mcas-active">
+		<default value="fcs/stabilizer/mcas-active"/>
+	</switch>
 
 	<switch name="fcs/stabilizer/stab-target-unit">
 		<default value="fcs/stabilizer/stab-target-unit"/>
