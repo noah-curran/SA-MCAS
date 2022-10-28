@@ -28,7 +28,7 @@
 
     <!-- Horizontal Stabilizer From MCAS -->
         <property> fcs/pitch-trim-cmd-norm </property>
-	<property> fcs/MCAS-trim-enabled </property>
+	<property> fcs/stabilizer/mcas-active </property>
     </input>
 
     <outputs>
