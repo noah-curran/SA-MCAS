@@ -42,11 +42,13 @@ Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATION
 
-run_sim("takeoff", "none", 200, sortedParams, 1, false);
+run_sim("takeoff", "none", 200, sortedParams, 0, false, 1);
+run_sim("straight_and_level", "none", 200, sortedParams, 0, false, 1);
+run_sim("straight_and_climb", "none", 200, sortedParams, 0, false, 1);
 
 %% FUNCTIONS
 
-function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_anomalies)
+function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_anomalies, do_csv)
     select_script(script);
     select_MCAS(MCAS);
 
@@ -76,6 +78,7 @@ function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_an
         if do_plot == 1
             MCAS_Plotting(output, injection_params, no_anomalies_output);
         end
+
     else
 
         % Plotting only occurs if do_plot was supplied and equal to 1.
@@ -85,12 +88,23 @@ function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_an
         if do_plot == 1
             MCAS_Plotting(output, injection_params);
         end
+
     end
 
     % Index simulation and send output data to MATLAB base workspace
     sim_num = evalin("base", "num_sims") + 1;
     assignin('base', "num_sims", sim_num);
-    assignin('base', append("sim_", int2str(sim_num), "_output"), output);
+    workspace_object_name = append("sim_", int2str(sim_num), "_output");
+    assignin('base', workspace_object_name, output);
+
+    % csv dump only occurs if do_csv was supplied and equal to 1.
+    if ~exist("do_csv", 'var')
+        do_csv = 0;
+    end
+    if do_csv == 1
+        Write_to_CSV(workspace_object_name);
+    end
+
 end % function
 
 function select_MCAS(MCAS_str)
