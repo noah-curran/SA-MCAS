@@ -40,11 +40,12 @@ global sortedParams;
 sortedParams = table2struct(sortedT);
 Simulink.Bus.createObject(sortedParams);
 
-%% RUN SIMULATION
-
-run_sim("takeoff", "none", 200, sortedParams, 0, false, 1);
-run_sim("straight_and_level", "none", 200, sortedParams, 0, false, 1);
-run_sim("straight_and_climb", "none", 200, sortedParams, 0, false, 1);
+%% RUN SIMULATIONS
+for i=1:3
+    alt = 10000 + 3000*i;
+    set_script_parameters(0, alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    run_sim("straight_and_climb", "none", 200, sortedParams, 1, false, 1);
+end
 
 %% FUNCTIONS
 

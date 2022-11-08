@@ -20,4 +20,6 @@ output_matrix = vertcat(headers, output_matrix);
 date_time = string(datetime('now', 'Format', 'MM_dd-HH_mm'));
 file_name = append("../data-collection/simulation-export/", date_time, "_", sim_object_name, ".csv");
 writematrix(output_matrix, file_name);
+
+disp("Writing to CSV");
 end
