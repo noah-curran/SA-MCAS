@@ -41,11 +41,15 @@ sortedParams = table2struct(sortedT);
 Simulink.Bus.createObject(sortedParams);
 
 %% RUN SIMULATIONS
-for i=1:3
-    alt = 10000 + 3000*i;
-    set_script_parameters(0, alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    run_sim("straight_and_climb", "none", 200, sortedParams, 1, false, 1);
-end
+% for i=1:3
+%     alt = 10000 + 3000*i;
+%     set_script_parameters(0, alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+%     run_sim("straight_and_climb", "none", 200, sortedParams, 1, false, 1);
+% end
+
+%set_script_parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+set_script_parameters_zero;
+run_sim("takeoff", "none", 200, sortedParams, 1, false, 1);
 
 %% FUNCTIONS
 
@@ -156,13 +160,13 @@ function select_script(script_str)
         case "holding_pattern"
             set_init_conds(10000, 240, 0, 0, 0, 0, 90);
         case "takeoff"
-            % resting height is a bit less than 3.7 ft. Plane settles
-            % quickly with 3.7 starting "altitude"
-            set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
+            % resting height is a bit less than 12 ft. Plane settles
+            % quickly with 12 starting "altitude"
+            set_init_conds(12, 0, 0, 0, 0, 0, 90);
         case "takeoff_JT610"
-            set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
+            set_init_conds(12, 0, 0, 0, 0, 0, 90);
         case "takeoff_stall"
-            set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
+            set_init_conds(12, 0, 0, 0, 0, 0, 90);
         case "landing"
             set_init_conds(3000, 200, 0, 0, 0, 0, 90);
         otherwise

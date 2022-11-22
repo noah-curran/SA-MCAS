@@ -29,63 +29,57 @@
     </fileheader>
 
     <metrics>
-   	<wingarea  unit="FT2"> 1341.10 </wingarea>
-   	<wingspan  unit="FT" >  117.79 </wingspan>
-   	<chord     unit="FT" >   11.39 </chord>
-   	<htailarea unit="FT2">  352.88 </htailarea>
-   	<htailarm  unit="FT" >   58.07 </htailarm>
-   	<vtailarea unit="FT2">  284.63 </vtailarea>
-   	<vtailarm  unit="FT" >   53.58 </vtailarm>
-   	<location name="AERORP" unit="IN">
-     		<x> 859.10 </x>
-     		<y>   0.00 </y>
-     		<z>   0.00 </z>
-   	</location>
-   	<location name="EYEPOINT" unit="IN">
-     		<x> 108.92 </x>
-     		<y> -30.00 </y>
-     		<z>  70.00 </z>
-   	</location>
-   	<location name="VRP" unit="IN">
-     		<x>0</x>
-     		<y>0</y>
-     		<z>0</z>
-   	</location>
+        <wingarea unit="FT2"> 1171.00 </wingarea>
+        <wingspan unit="FT">    94.70 </wingspan>
+        <chord unit="FT">       12.31 </chord>
+        <htailarea unit="FT2"> 348.00 </htailarea>
+        <htailarm unit="FT">    48.04 </htailarm>
+        <vtailarea unit="FT2"> 297.00 </vtailarea>
+        <vtailarm unit="FT">    44.50 </vtailarm>
+        <location name="AERORP" unit="IN">
+            <x> 625 </x>
+            <y>   0 </y>
+            <z>  24 </z>
+        </location>
+        <location name="EYEPOINT" unit="IN">
+            <x>  80 </x>
+            <y> -30 </y>
+            <z>  70 </z>
+        </location>
+        <location name="VRP" unit="IN">
+            <x> 0 </x>
+            <y> 0 </y>
+            <z> 0 </z>
+        </location>
     </metrics>
 
- <mass_balance>
-   <ixx unit="SLUG*FT2">    653542 </ixx>
-   <iyy unit="SLUG*FT2">   1829808 </iyy>
-   <izz unit="SLUG*FT2">   2441368 </izz>
-   <emptywt unit="LBS" >     97075 </emptywt>
-   <location name="CG" unit="IN">
-     <x> 859.10 </x>
-     <y>   0.00 </y>
-     <z> -38.90 </z>
-   </location>
-   <pointmass name="Payload">
-    <description> 33953 LBS + full (50200 LBS) fuel should bring model up to entered max weight</description>
-    <weight unit="LBS">  16976.7 </weight>
-    <location name="POINTMASS" unit="IN">
-      <x> 859.10 </x>
-      <y>   0.00 </y>
-      <z> -38.90 </z>
-    </location>
-  </pointmass> 
- </mass_balance>
+    <mass_balance negated_crossproduct_inertia="true">
+        <ixx unit="SLUG*FT2">    562000 </ixx>
+        <iyy unit="SLUG*FT2"> 1.473e+06 </iyy>
+        <izz unit="SLUG*FT2"> 1.894e+06 </izz>
+        <ixy unit="SLUG*FT2">         0 </ixy>
+        <ixz unit="SLUG*FT2">      8000 </ixz>
+        <iyz unit="SLUG*FT2">         0 </iyz>
+        <emptywt unit="LBS">      83000 </emptywt>
+        <location name="CG" unit="IN">
+            <x> 639 </x>
+            <y>   0 </y>
+            <z> -40 </z>
+        </location>
+    </mass_balance>
 
     <ground_reactions>
         <contact name="Nose Gear" type="BOGEY">
             <location unit="IN">
-     		<x> 202.28 </x>
-     		<y>   0.00 </y>
-     		<z> -186.72 </z>
+                <x> 158 </x>
+                <y>   0 </y>
+                <z> -84 </z>
             </location>
             <static_friction>  0.80 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 54368.69 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 27184.34 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 90000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 4000 </damping_coeff>
             <damping_coeff_rebound unit="LBS/FT/SEC">8000</damping_coeff_rebound>
 
           <max_steer unit="DEG"> 35 </max_steer>
@@ -94,15 +88,15 @@
         </contact>
         <contact name="Left Main Gear" type="BOGEY">
             <location unit="IN">
-     		<x> 893.46 </x>
-     		<y> -127.21 </y>
-     		<z> -186.72 </z>
+                <x>  648 </x>
+                <y> -100 </y>
+                <z>  -84 </z>
             </location>
             <static_friction>  0.80 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 181228.95 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 90614.48 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 120000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 10000 </damping_coeff>
             <damping_coeff_rebound unit="LBS/FT/SEC">20000</damping_coeff_rebound>
 
           <max_steer unit="DEG"> 0.0 </max_steer>
@@ -111,15 +105,15 @@
         </contact>
         <contact name="Right Main Gear" type="BOGEY">
             <location unit="IN">
-     		<x> 893.46 </x>
-     		<y> 127.21 </y>
-     		<z> -186.72 </z>
+                <x> 648 </x>
+                <y> 100 </y>
+                <z> -84 </z>
             </location>
             <static_friction>  0.80 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 181228.95 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 90614.48 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 120000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 10000 </damping_coeff>
             <damping_coeff_rebound unit="LBS/FT/SEC">20000</damping_coeff_rebound>
             
             <max_steer unit="DEG"> 0.0 </max_steer>
@@ -133,9 +127,9 @@
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x>  850.10 </x>
-                    <y> -235.58 </y>
-                    <z>  -40 </z>
+                    <x>  531 </x>	<!-- 9 inches forward (structural frame x axis increases from nose to tail) -->
+                    <y> -193 </y>
+                    <z>  -41 </z>	<!-- 1 inch downward (structural frame z axis is positive upwards) -->
                 </location>
                 <orient unit="DEG">
                     <roll>  0 </roll>
@@ -149,9 +143,9 @@
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x>  850.10 </x>
-                    <y> 235.58 </y>
-                    <z>  -40 </z>
+                    <x> 531 </x>
+                    <y> 193 </y>
+                    <z> -41 </z>
                 </location>
                 <orient unit="DEG">
                     <roll>  0 </roll>
@@ -160,35 +154,36 @@
                 </orient>
             </thruster>
         </engine>
-  	<tank type="FUEL" number="0">
-     		<location unit="IN">
-       			<x> 859.10 </x>
-       			<y>   0.00 </y>
-       			<z> -38.90 </z>
-     		</location>
-     		<capacity unit="LBS"> 16733.47 </capacity>
-     		<contents unit="LBS"> 8366.74 </contents>
-  	</tank>
-
-  	<tank type="FUEL" number="1">
-     		<location unit="IN">
-       			<x> 859.10 </x>
-       			<y>   0.00 </y>
-       			<z> -38.90 </z>
-     		</location>
-     		<capacity unit="LBS"> 16733.47 </capacity>
-     		<contents unit="LBS"> 8366.74 </contents>
-  	</tank>
-
-  	<tank type="FUEL" number="2">
-     		<location unit="IN">
-       			<x> 859.10 </x>
-       			<y>   0.00 </y>
-       			<z> -38.90 </z>
-     		</location>
-     		<capacity unit="LBS"> 16733.47 </capacity>
-     		<contents unit="LBS"> 8366.74 </contents>
-  	</tank>
+        <tank type="FUEL"><!-- Left wing tank -->
+            <location unit="IN">
+                <x> 520 </x>
+                <y> -80 </y>
+                <z> -18 </z>
+            </location>
+            <type>JET-A</type>
+            <capacity unit="LBS"> 10200 </capacity>
+            <contents unit="LBS"> 10000 </contents>
+        </tank>
+        <tank type="FUEL"><!-- Right wing tank -->
+            <location unit="IN">
+                <x> 520 </x>
+                <y>  80 </y>
+                <z> -18 </z>
+            </location>
+            <type>JET-A</type>
+            <capacity unit="LBS"> 10200 </capacity>
+            <contents unit="LBS"> 10000 </contents>
+        </tank>
+        <tank type="FUEL"><!-- Center tank -->
+            <location unit="IN">
+                <x> 480 </x>
+                <y>   0 </y>
+                <z> -18 </z>
+            </location>
+            <type>JET-A</type>
+            <capacity unit="LBS"> 15000 </capacity>
+            <contents unit="LBS">  4000 </contents>
+        </tank>
     </propulsion>
 
     <flight_control name="FCS: 737">
