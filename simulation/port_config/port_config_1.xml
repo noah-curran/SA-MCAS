@@ -91,9 +91,10 @@
 		<property> accelerations/rdot-rad_sec2 </property>
 		<property> accelerations/a-pilot-x-ft_sec2 </property>
 		<property> accelerations/a-pilot-y-ft_sec2 </property>
-
 		<property> fcs/flap-pos-norm </property>
 		<property> propulsion/engine/n1 </property>
+		<property> atmosphere/T-R </property> <!-- https://en.wikipedia.org/wiki/Rankine_scale -->
+		<property> atmosphere/P-psf </property>
 	</output>
 
 	<output name="HS Controls Debug">

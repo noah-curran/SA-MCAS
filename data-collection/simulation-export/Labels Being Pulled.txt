@@ -20,3 +20,5 @@ flaps pos norm
 engine percent (speed)
 pilot elevator cmd
 throttle cmd
+temperature (rankine units)
+pressure
