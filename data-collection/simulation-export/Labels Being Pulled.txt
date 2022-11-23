@@ -1,0 +1,22 @@
+Altitude
+Vertical Speed
+Airspeed
+Pitch
+Pitch Rate
+Pitch angular acceleration
+roll
+roll rate
+roll angular acceleration
+heading
+heading rate
+yaw angular acceleration
+AoA
+pilot X axis acceleration
+pilot Y axis acceleration
+pilot Z axis acceleration
+latitude
+longitude
+flaps pos norm
+engine percent (speed)
+pilot elevator cmd
+throttle cmd

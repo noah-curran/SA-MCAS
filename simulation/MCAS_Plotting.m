@@ -26,7 +26,6 @@ elevator_cmd = output_name.pilot_elevator_cmd.Data(:);
 
 latitude = output_name.lat_deg.Data(:);
 longitude = output_name.long_deg.Data(:);
-alt_asl_120hz = output_name.altitude_asl_120hz.Data(:);
 alpha_deg = output_name.alpha_deg.Data(:);
 
 a_pilot_z_ft_sec2 = output_name.a_pilot_z_ft_sec2.Data(:);
@@ -49,8 +48,8 @@ JT610_altitude = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "I2:I845")
 
 %% Plotting
 % plot_j610_data();
-%plot_3d(output_name);
-plot_alt_speed(output_name);
+plot_3d(output_name);
+%plot_alt_speed(output_name);
 
 % i_start_t = find(time>=anomaly_params(1).StartTime,1);
 % i_end_t = find(time>=anomaly_params(1).EndTime,1);
@@ -127,17 +126,17 @@ end % function
 function plot_3d(output_name)
 latitude = output_name.lat_deg.Data(:);
 longitude = output_name.long_deg.Data(:);
-alt_asl_120hz = output_name.altitude_asl_120hz.Data(:);
+h_asl = output_name.h_asl.Data(:);
 
 figure;
 hold on; % make plots into functions
-plot3(longitude, latitude, alt_asl_120hz);
+plot3(longitude, latitude, h_asl);
 xlabel("Longitude (deg)");
 ylabel("Latitude (deg)");
 zlabel("Altitude ASL (ft)");
 xlim(axis_range(longitude, 0.0001));
 ylim(axis_range(latitude, 0.0001));
-zlim(axis_range(alt_asl_120hz, 500));
+zlim(axis_range(h_asl, 500));
 grid on;
 view(45, 45);
 % %axis vis3d; % why is this making the axis titles hard to see?

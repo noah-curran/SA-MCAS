@@ -80,10 +80,21 @@
 	<output name="Trajectory Plotting">
 		<property> position/lat-gc-deg </property>
 	        <property> position/long-gc-deg </property>
-	        <property> position/h-sl-ft </property>
             	<property> accelerations/a-pilot-z-ft_sec2 </property>
             	<property> aero/alpha-deg </property>
         </output>
+
+	<output name="Other Data for CSV Logging">
+		<!-- p=roll, q=pitch, r=yaw -->
+		<property> accelerations/pdot-rad_sec2 </property>
+		<property> accelerations/qdot-rad_sec2 </property>
+		<property> accelerations/rdot-rad_sec2 </property>
+		<property> accelerations/a-pilot-x-ft_sec2 </property>
+		<property> accelerations/a-pilot-y-ft_sec2 </property>
+
+		<property> fcs/flap-pos-norm </property>
+		<property> propulsion/engine/n1 </property>
+	</output>
 
 	<output name="HS Controls Debug">
 	        <property> fcs/stabilizer/mcas-active </property>

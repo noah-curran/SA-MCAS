@@ -49,7 +49,7 @@ Simulink.Bus.createObject(sortedParams);
 
 %set_script_parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 set_script_parameters_zero;
-run_sim("takeoff", "none", 200, sortedParams, 1, false, 1);
+run_sim("takeoff", "none", 60, sortedParams, 1, false, 1);
 
 %% FUNCTIONS
 
