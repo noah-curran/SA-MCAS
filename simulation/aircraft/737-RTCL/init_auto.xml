@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <initialize name="init_auto">
-	<altitude unit="FT">20000</altitude>
+	<altitude unit="FT">11000</altitude>
 	<vc unit="KTS">300</vc>
 	<latitude unit="DEG">0</latitude>
 	<longitude unit="DEG">0</longitude>
