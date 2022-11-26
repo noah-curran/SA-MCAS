@@ -34,6 +34,6 @@ for start_alt = start_alt_array
 
         set_script_parameters(0, start_alt, end_alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         set_init_conds(start_alt, 300, 0, 0, 0, 0, 90);
-        run_sim("straight_and_climb", "none", 400, sortedParams, 1, 0, 1, 1);
+        run_sim("straight_and_climb", "none", 400, sortedParams, 0, 0, 1, 1);
     end
 end

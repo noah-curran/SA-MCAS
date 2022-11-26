@@ -21,7 +21,10 @@ function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_an
     end
 
     % Index simulation and send output data to MATLAB base workspace
-    send_sim_output_to_workspace(output);
+    sim_num = evalin("base", "num_sims") + 1;
+    assignin('base', "num_sims", sim_num);
+    workspace_object_name = append("sim_", int2str(sim_num), "_output");
+    assignin('base', workspace_object_name, output);
 
     % csv dump only occurs if do_csv was supplied and equal to 1.
     if ~exist("do_csv", 'var')
