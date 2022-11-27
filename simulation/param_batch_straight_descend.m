@@ -32,8 +32,12 @@ for start_alt = start_alt_array
 %         disp("Start, end alt: ");
 %         disp([start_alt end_alt]);
 
-        set_script_parameters(0, 0, 0, start_alt, end_alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        script_params = [0, 0, 0, start_alt, end_alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        assignin("base", "script_params", script_params);
+
+        set_script_parameters(script_params);
         set_init_conds(start_alt, 300, 0, 0, 0, 0, 90);
         run_sim("straight_and_climb", "none", 600, sortedParams, 0, 0, 1, 1);
     end
 end
+

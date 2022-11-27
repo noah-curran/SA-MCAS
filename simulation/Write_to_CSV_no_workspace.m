@@ -24,8 +24,12 @@ output_matrix = num2cell(output_matrix);
 headers = ["time", labels];
 output_matrix = vertcat(headers, output_matrix);
 
-date_time = string(datetime('now', 'Format', 'MM_dd-HH_mm'));
-file_name = append("../data-collection/simulation-export/", date_time, "_sim_", string(evalin("base", "num_sims")), "_output.csv");
+%date_time = string(datetime('now', 'Format', 'MM_dd-HH_mm'));
+
+file_name = append("../data-collection/simulation-export/", ...
+    "holding-pattern-10k-ft", ...
+    "_starting-heading-", string(evalin("base", "script_params(13)")), ...
+    "_leg-timer-duration-", string(evalin("base", "script_params(14)")), ".csv");
 
 writematrix(output_matrix, file_name);
 

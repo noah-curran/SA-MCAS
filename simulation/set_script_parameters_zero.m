@@ -1,3 +1,4 @@
-function set_zero_parameters_zero
-set_script_parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+function set_script_parameters_zero
+par = zeros(1, 100);
+set_script_parameters(par);
 end

@@ -19,15 +19,9 @@ clear;
 initialize_sim_config;
 
 %% RUN SIMULATIONS
-% for i=1:3
-%     alt = 10000 + 3000*i;
-%     set_script_parameters(0, alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-%     run_sim("straight_and_climb", "none", 200, sortedParams, 1, false, 1);
-% end
 
-start_alt = 4000;
-end_alt = 11000;
-
-set_script_parameters(0, start_alt, end_alt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-set_init_conds(start_alt, 300, 0, 0, 0, 0, 90);
-run_sim("straight_and_climb", "none", 200, sortedParams, 1, 0, 0, 1);
+set_script_parameters_zero;
+script_parameters(14) = 120;
+set_init_conds(10000, 240, 0, 0, 0, 0, 120);
+%disp(script_parameters(13));
+run_sim("holding_pattern", "none", 600, sortedParams, 1, 0, 0, 1);
