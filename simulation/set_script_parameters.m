@@ -14,6 +14,13 @@ function set_script_parameters(par)
     climbturn_turn_amount = par(12);
     holdpat_starting_heading = par(13);
     holdpat_leg_duration = par(14);
+    takeoff_initial_climb_airspeed = par(15);
+    takeoff_climb_shallower_alt = par(16);
+    takeoff_final_climb_airspeed = par(17);
+    takeoff_final_alt = par(18);
+    landing_desc_rate = par(19);
+    landing_final_ref_airspeed = par(20);
+    landing_start_alt = par(21);
 
     % add element -999 at beginning, which will be interpreted as timeseries
     % data by the "From Workspace" block and discarded from the array.
@@ -23,7 +30,9 @@ function set_script_parameters(par)
         desc_start_alt, desc_end_alt, ...
         levelturn_start_hdg, levelturn_turn_amount, ...
         climbturn_start_alt, climbturn_climb_amount, climbturn_start_hdg, climbturn_turn_amount, ...
-        holdpat_starting_heading, holdpat_leg_duration
+        holdpat_starting_heading, holdpat_leg_duration, ...
+        takeoff_initial_climb_airspeed, takeoff_climb_shallower_alt, takeoff_final_climb_airspeed, takeoff_final_alt, ...
+        landing_desc_rate, landing_final_ref_airspeed, landing_start_alt
         ];
 
     assignin('base', "script_parameters", arr);
