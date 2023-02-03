@@ -29,63 +29,57 @@
     </fileheader>
 
     <metrics>
-   	<wingarea  unit="FT2"> 1341.10 </wingarea>
-   	<wingspan  unit="FT" >  117.79 </wingspan>
-   	<chord     unit="FT" >   11.39 </chord>
-   	<htailarea unit="FT2">  352.88 </htailarea>
-   	<htailarm  unit="FT" >   58.07 </htailarm>
-   	<vtailarea unit="FT2">  284.63 </vtailarea>
-   	<vtailarm  unit="FT" >   53.58 </vtailarm>
-   	<location name="AERORP" unit="IN">
-     		<x> 859.10 </x>
-     		<y>   0.00 </y>
-     		<z>   0.00 </z>
-   	</location>
-   	<location name="EYEPOINT" unit="IN">
-     		<x> 108.92 </x>
-     		<y> -30.00 </y>
-     		<z>  70.00 </z>
-   	</location>
-   	<location name="VRP" unit="IN">
-     		<x>0</x>
-     		<y>0</y>
-     		<z>0</z>
-   	</location>
+        <wingarea unit="FT2"> 1171.00 </wingarea>
+        <wingspan unit="FT">    94.70 </wingspan>
+        <chord unit="FT">       12.31 </chord>
+        <htailarea unit="FT2"> 348.00 </htailarea>
+        <htailarm unit="FT">    48.04 </htailarm>
+        <vtailarea unit="FT2"> 297.00 </vtailarea>
+        <vtailarm unit="FT">    44.50 </vtailarm>
+        <location name="AERORP" unit="IN">
+            <x> 625 </x>
+            <y>   0 </y>
+            <z>  24 </z>
+        </location>
+        <location name="EYEPOINT" unit="IN">
+            <x>  80 </x>
+            <y> -30 </y>
+            <z>  70 </z>
+        </location>
+        <location name="VRP" unit="IN">
+            <x> 0 </x>
+            <y> 0 </y>
+            <z> 0 </z>
+        </location>
     </metrics>
 
- <mass_balance>
-   <ixx unit="SLUG*FT2">    653542 </ixx>
-   <iyy unit="SLUG*FT2">   1829808 </iyy>
-   <izz unit="SLUG*FT2">   2441368 </izz>
-   <emptywt unit="LBS" >     97075 </emptywt>
-   <location name="CG" unit="IN">
-     <x> 859.10 </x>
-     <y>   0.00 </y>
-     <z> -38.90 </z>
-   </location>
-   <pointmass name="Payload">
-    <description> 33953 LBS + full (50200 LBS) fuel should bring model up to entered max weight</description>
-    <weight unit="LBS">  16976.7 </weight>
-    <location name="POINTMASS" unit="IN">
-      <x> 859.10 </x>
-      <y>   0.00 </y>
-      <z> -38.90 </z>
-    </location>
-  </pointmass> 
- </mass_balance>
+    <mass_balance negated_crossproduct_inertia="true">
+        <ixx unit="SLUG*FT2">    562000 </ixx>
+        <iyy unit="SLUG*FT2"> 1.473e+06 </iyy>
+        <izz unit="SLUG*FT2"> 1.894e+06 </izz>
+        <ixy unit="SLUG*FT2">         0 </ixy>
+        <ixz unit="SLUG*FT2">      8000 </ixz>
+        <iyz unit="SLUG*FT2">         0 </iyz>
+        <emptywt unit="LBS">      83000 </emptywt>
+        <location name="CG" unit="IN">
+            <x> 639 </x>
+            <y>   0 </y>
+            <z> -40 </z>
+        </location>
+    </mass_balance>
 
     <ground_reactions>
         <contact name="Nose Gear" type="BOGEY">
             <location unit="IN">
-     		<x> 202.28 </x>
-     		<y>   0.00 </y>
-     		<z> -186.72 </z>
+                <x> 158 </x>
+                <y>   0 </y>
+                <z> -84 </z>
             </location>
             <static_friction>  0.80 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 54368.69 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 27184.34 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 90000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 4000 </damping_coeff>
             <damping_coeff_rebound unit="LBS/FT/SEC">8000</damping_coeff_rebound>
 
           <max_steer unit="DEG"> 35 </max_steer>
@@ -94,15 +88,15 @@
         </contact>
         <contact name="Left Main Gear" type="BOGEY">
             <location unit="IN">
-     		<x> 893.46 </x>
-     		<y> -127.21 </y>
-     		<z> -186.72 </z>
+                <x>  648 </x>
+                <y> -100 </y>
+                <z>  -84 </z>
             </location>
             <static_friction>  0.80 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 181228.95 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 90614.48 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 120000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 10000 </damping_coeff>
             <damping_coeff_rebound unit="LBS/FT/SEC">20000</damping_coeff_rebound>
 
           <max_steer unit="DEG"> 0.0 </max_steer>
@@ -111,15 +105,15 @@
         </contact>
         <contact name="Right Main Gear" type="BOGEY">
             <location unit="IN">
-     		<x> 893.46 </x>
-     		<y> 127.21 </y>
-     		<z> -186.72 </z>
+                <x> 648 </x>
+                <y> 100 </y>
+                <z> -84 </z>
             </location>
             <static_friction>  0.80 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 181228.95 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 90614.48 </damping_coeff>
+            <spring_coeff unit="LBS/FT"> 120000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 10000 </damping_coeff>
             <damping_coeff_rebound unit="LBS/FT/SEC">20000</damping_coeff_rebound>
             
             <max_steer unit="DEG"> 0.0 </max_steer>
@@ -133,9 +127,9 @@
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x>  850.10 </x>
-                    <y> -235.58 </y>
-                    <z>  -40 </z>
+                    <x>  531 </x>	<!-- 9 inches forward (structural frame x axis increases from nose to tail) -->
+                    <y> -193 </y>
+                    <z>  -41 </z>	<!-- 1 inch downward (structural frame z axis is positive upwards) -->
                 </location>
                 <orient unit="DEG">
                     <roll>  0 </roll>
@@ -149,9 +143,9 @@
             <feed>2</feed>
             <thruster file="direct">
                 <location unit="IN">
-                    <x>  850.10 </x>
-                    <y> 235.58 </y>
-                    <z>  -40 </z>
+                    <x> 531 </x>
+                    <y> 193 </y>
+                    <z> -41 </z>
                 </location>
                 <orient unit="DEG">
                     <roll>  0 </roll>
@@ -160,35 +154,36 @@
                 </orient>
             </thruster>
         </engine>
-  	<tank type="FUEL" number="0">
-     		<location unit="IN">
-       			<x> 859.10 </x>
-       			<y>   0.00 </y>
-       			<z> -38.90 </z>
-     		</location>
-     		<capacity unit="LBS"> 16733.47 </capacity>
-     		<contents unit="LBS"> 8366.74 </contents>
-  	</tank>
-
-  	<tank type="FUEL" number="1">
-     		<location unit="IN">
-       			<x> 859.10 </x>
-       			<y>   0.00 </y>
-       			<z> -38.90 </z>
-     		</location>
-     		<capacity unit="LBS"> 16733.47 </capacity>
-     		<contents unit="LBS"> 8366.74 </contents>
-  	</tank>
-
-  	<tank type="FUEL" number="2">
-     		<location unit="IN">
-       			<x> 859.10 </x>
-       			<y>   0.00 </y>
-       			<z> -38.90 </z>
-     		</location>
-     		<capacity unit="LBS"> 16733.47 </capacity>
-     		<contents unit="LBS"> 8366.74 </contents>
-  	</tank>
+        <tank type="FUEL"><!-- Left wing tank -->
+            <location unit="IN">
+                <x> 520 </x>
+                <y> -80 </y>
+                <z> -18 </z>
+            </location>
+            <type>JET-A</type>
+            <capacity unit="LBS"> 10200 </capacity>
+            <contents unit="LBS"> 10000 </contents>
+        </tank>
+        <tank type="FUEL"><!-- Right wing tank -->
+            <location unit="IN">
+                <x> 520 </x>
+                <y>  80 </y>
+                <z> -18 </z>
+            </location>
+            <type>JET-A</type>
+            <capacity unit="LBS"> 10200 </capacity>
+            <contents unit="LBS"> 10000 </contents>
+        </tank>
+        <tank type="FUEL"><!-- Center tank -->
+            <location unit="IN">
+                <x> 480 </x>
+                <y>   0 </y>
+                <z> -18 </z>
+            </location>
+            <type>JET-A</type>
+            <capacity unit="LBS"> 15000 </capacity>
+            <contents unit="LBS">  4000 </contents>
+        </tank>
     </propulsion>
 
     <flight_control name="FCS: 737">
@@ -454,207 +449,460 @@
 
 
 
-<property value="1"> fcs/stabilizer/trim-direction </property> 				<!--temporary to test partial HS implementation -->
+        <property value="-1"> fcs/stabilizer/mcas-trim-direction </property> 				<!--temporary to test partial HS implementation -->
 
-<property value="0.38"> fcs/stabilizer/flaps-trim-rate </property>
-<property value="0.2"> fcs/stabilizer/no-flaps-trim-rate </property>
-<property value="0.27"> fcs/stabilizer/mcas-trim-rate </property>
-<property value="2.5"> fcs/stabilizer/mcas-trim-amount </property>
-<property value="5"> fcs/stabilizer/mcas-min-delay </property>
+        <property value="0.38"> fcs/stabilizer/auto-pilot-flaps-trim-rate </property>
+        <property value="0.2"> fcs/stabilizer/auto-pilot-no-flaps-trim-rate </property>
+        <property value="0.27"> fcs/stabilizer/mcas-trim-rate </property>
+        <property value="2.5"> fcs/stabilizer/mcas-trim-amount </property>
+        <property value="11"> fcs/stabilizer/mcas-min-delay </property>
+        <property value="0.4"> fcs/stabilizer/manual-trim-rate </property>
 
-	<channel name="Stabilizer">
+        <!--property value="0"> fcs/stabilizer/mcas-active </property>
+        <property value="0"> fcs/stabilizer/manual-active </property-->
 
 
-<!--*************** MCAS \/ \/ *******************-->
-	
-	<switch name="fcs/stabilizer/mcas-active">
-		<default value="fcs/stabilizer/mcas-active"/>
-	</switch>
+	    <channel name="Stabilizer">
 
-	<switch name="fcs/stabilizer/stab-target-unit">
-		<default value="fcs/stabilizer/stab-target-unit"/>
-		<test value="6">
-			simulation/sim-time-sec LE 0.1
-		</test>
-	</switch>
+            <switch name="fcs/stabilizer/pilot-trim-stab-target-diff">
+                <default value="fcs/stabilizer/pilot-trim-stab-target-diff"/>
+            </switch>
 
-	<switch name="fcs/stabilizer/stabilizer-pos-unit">
-		<default value="fcs/stabilizer/stabilizer-pos-unit"/>
-		<test value="6">
-			simulation/sim-time-sec LE 0.1
-		</test>
-	</switch>
+            <switch name="fcs/stabilizer/mcas-active">
+                <default value="fcs/stabilizer/mcas-active"/>
+            </switch>
 
-<!-- HS command pulses from MCAS activations -->
-	<fcs_function name="fcs/stabilizer/mcas-min-next-activation-time">
-	<function>
-		<sum>
-			<property> fcs/stabilizer/mcas-timer-end-time </property>
-			<property> fcs/stabilizer/mcas-min-delay </property>	
-		</sum>
-	</function>
-	</fcs_function>
+            <switch name="fcs/stabilizer/manual-active">
+                <default value="fcs/stabilizer/manual-active"/>
+            </switch>
 
-	<switch name="fcs/stabilizer/no-recent-mcas-fire">
-		<default value="0"/>
-		<test value="1">
-			simulation/sim-time-sec GE fcs/stabilizer/mcas-min-next-activation-time
-		</test>
-	</switch>
+            <switch name="fcs/stabilizer/auto-pilot-trim-active">
+                <default value="0"/>
+                <test value="1">
+                    fcs/stabilizer/pilot-trim-stab-target-diff NE 0
+                </test>
+            </switch>
 
-	<fcs_function name="fcs/stabilizer/do-mcas-fire">
-	<function>
-		<product>
-			<property> fcs/stabilizer/no-recent-mcas-fire </property>
-			<property> fcs/stabilizer/mcas-active </property>
-		</product>
-	</function>
-	</fcs_function>
+            <switch name="fcs/stabilizer/manual-trim-direction">
+                <default value="fcs/stabilizer/manual-trim-direction"/>
+            </switch>
 
-<!-- timer-active=1 for some duration after mcas fires, then back to 0 -->
-	<fcs_function name="fcs/stabilizer/now-plus-mcas-timer">
-	<function>
-		<sum>
-			<property> simulation/sim-time-sec </property>
-			<quotient>
-				<property> fcs/stabilizer/mcas-trim-amount </property>
-				<property> fcs/stabilizer/mcas-trim-rate </property>
-			</quotient>
-		</sum>
-	</function>
-	</fcs_function>
+            <switch name="fcs/stabilizer/auto-pilot-trim-direction">
+                <default value="0"/>
+                <test value="1">
+                    fcs/stabilizer/pilot-trim-stab-target-diff GT 0
+                </test>
+                <test value="-1">
+                    fcs/stabilizer/pilot-trim-stab-target-diff LT 0
+                </test>
+            </switch>
 
-	<switch name="fcs/stabilizer/mcas-timer-end-time">
-		<default value="fcs/stabilizer/mcas-timer-end-time"/>
-		<test value="fcs/stabilizer/now-plus-mcas-timer">
-			fcs/stabilizer/do-mcas-fire == 1
-		</test>
-	</switch>
+            <switch name="fcs/stabilizer/auto-pilot-trim-rate">
+                <default value="fcs/stabilizer/auto-pilot-flaps-trim-rate"/>
+                <test value="fcs/stabilizer/auto-pilot-no-flaps-trim-rate">
+                    fcs/flap-pos-norm == 0
+                </test>
+            </switch>
 
-	<switch name="fcs/stabilizer/mcas-timer-active">
-		<default value="0"/>
-		<test value="1">
-			simulation/sim-time-sec LE fcs/stabilizer/mcas-timer-end-time
-		</test>
-	</switch>
+            <switch name="fcs/stabilizer/stab-target-unit">
+                <default value="fcs/stabilizer/stab-target-unit"/>
+                <test value="6.5">
+                    simulation/sim-time-sec LE 0.1
+                </test>
+            </switch>
 
-<!-- increment stab-target when mcas fires -->
-	<fcs_function name="fcs/stabilizer/stab-target-plus-offset">
-	<function>
-		<sum>
-			<property> fcs/stabilizer/stab-target-unit </property>
-			<product>
-				<property> fcs/stabilizer/mcas-trim-amount </property>
-	    			<property> fcs/stabilizer/trim-direction </property>
-			</product>
-		</sum>
-	</function>
-	</fcs_function>
+            <switch name="fcs/stabilizer/stabilizer-pos-unit">
+                <default value="fcs/stabilizer/stabilizer-pos-unit"/>
+                <test value="6.5">
+                    simulation/sim-time-sec LE 0.1
+                </test>
+            </switch>
 
-	<switch name="fcs/stabilizer/stab-target-unit">
-		<default value="fcs/stabilizer/stab-target-unit"/>
-		<test value="fcs/stabilizer/stab-target-plus-offset">
-			fcs/stabilizer/do-mcas-fire == 1
-		</test>
-		<clipto>
-			<min> 0 </min>
-			<max> 17 </max>
-		</clipto>
-	</switch>
+            <switch name="fcs/stabilizer/mcas-last-activation">
+                <default value="fcs/stabilizer/mcas-last-activation"/>
+                <test value="0">
+                    simulation/sim-time-sec LE 0.1
+                </test>
+            </switch>
 
-<!-- do-trim = 1 for duration after mcas fires -->
-	<switch name="fcs/stabilizer/do-trim">
-		<default value="0"/>
-		<test logic="OR" value="1">
-			fcs/stabilizer/mcas-timer-active == 1
-			fcs/stabilizer/pilot-trim-stab-target-diff NE 0
-		</test>
-	</switch>
-
-<!-- trim rate decision -->
-	<switch name="fcs/stabilizer/trim-rate">
-		<default value="fcs/stabilizer/flaps-trim-rate"/>
-		<test value="fcs/stabilizer/mcas-trim-rate">
-			fcs/stabilizer/mcas-timer-active == 1
-		</test>
-		<test value="fcs/stabilizer/no-flaps-trim-rate">
-			fcs/flap-pos-norm == 0
-		</test>
-	</switch>
-
-<!--*************** MCAS /\ /\ *******************-->
-
-<!--*************** PILOT TRIM \/ \/ *******************-->
-
-	<switch name="fcs/stabilizer/pilot-trim-stab-target-diff">
-		<default value="fcs/stabilizer/pilot-trim-stab-target-diff"/>
-	</switch>
-
-	<fcs_function name="fcs/stabilizer/stab-target-unit">
-	<function>
-		<sum>
-			<property> fcs/stabilizer/stab-target-unit </property>
-			<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
-		</sum>
-		<!--value> 0 </value-->
-	</function>
-	<clipto>
-		<min> 0 </min>
-		<max> 17 </max>
-	</clipto>
-	</fcs_function>
-
-<!--*************** PILOT TRIM /\ /\ *******************-->
-
-	<fcs_function name="fcs/stabilizer/trim-rate-total">
-	<function>	
-		<product>
-			<property> fcs/stabilizer/trim-rate </property>		
-			<property> fcs/stabilizer/do-trim </property>
-			<!--value> 1 </value-->
-		</product>
-	</function>
-	</fcs_function>
-
-	<fcs_function name="fcs/stabilizer/trim-rate-per-tick-magnitude">
-	<function>
-	<product>
-		<abs>
-			<property> fcs/stabilizer/trim-rate-total </property>
-		</abs>
-		<property> simulation/dt </property>
-	</product>
-	</function>
-	</fcs_function>
-
-          <summer name="fcs/stabilizer/errorfree-stab-error">
-            <input>  fcs/stabilizer/stab-target-unit </input>
-            <input> -fcs/stabilizer/stabilizer-pos-unit </input>
-            <clipto>
-              <min> -fcs/stabilizer/trim-rate-per-tick-magnitude </min>
-              <max>  fcs/stabilizer/trim-rate-per-tick-magnitude </max>
-            </clipto>
-            <output> fcs/stabilizer/stab-error </output>
-          </summer>
-
-          <summer name="fcs/stabilizer/stabilizer-pos-unit">
-            <input> fcs/stabilizer/stabilizer-pos-unit </input>
-            <input> fcs/stabilizer/stab-error </input>
-            <output> fcs/stabilizer/stabilizer-pos-unit </output>
-          </summer>
-
-          <fcs_function name="fcs/stab">
+            <fcs_function name="fcs/stabilizer/mcas-end-last-activation-plus-delay">
             <function>
-              <product>
+                <sum>
+                    <property> fcs/stabilizer/mcas-end-last-activation </property>
+                    <property> fcs/stabilizer/mcas-min-delay </property>
+                </sum>
+            </function>
+            </fcs_function>
+
+            <switch name="fcs/stabilizer/mcas-last-activation">
+                <default value="fcs/stabilizer/mcas-last-activation"/>
+                <test logic="AND" value="simulation/sim-time-sec">
+                    fcs/stabilizer/mcas-end-last-activation-plus-delay LE simulation/sim-time-sec
+                    fcs/stabilizer/mcas-active == 1
+                </test>
+            </switch>
+
+            <fcs_function name="fcs/stabilizer/mcas-end-last-activation">
+            <function>
+                <sum>
+                    <property> fcs/stabilizer/mcas-last-activation </property>
+                    <quotient>
+                        <property> fcs/stabilizer/mcas-trim-amount </property>
+                        <property> fcs/stabilizer/mcas-trim-rate </property>
+                    </quotient>
+                </sum>
+            </function>
+            <output> fcs/stabilizer/mcas-end-last-activation </output>
+            </fcs_function>
+
+            <switch name="fcs/stabilizer/mcas-input">
+                <default value="0"/>
+                <test logic="AND" value="1">
+                    simulation/sim-time-sec LE fcs/stabilizer/mcas-end-last-activation
+                    fcs/stabilizer/mcas-active == 1
+                </test>
+            </switch>
+
+            <fcs_function name="fcs/stabilizer/get-auto-pilot-trim-per-tick">
+            <function>
+                <product>
+                    <product>
+                        <product>
+                            <property> fcs/stabilizer/auto-pilot-trim-rate </property>
+                            <property> simulation/dt </property>
+                        </product>
+                        <property> fcs/stabilizer/auto-pilot-trim-direction </property>
+                    </product>
+                    <property> fcs/stabilizer/auto-pilot-trim-active </property>
+                </product>
+            </function>
+            <output> fcs/stabilizer/get-auto-pilot-trim-per-tick </output>
+            </fcs_function>
+
+            <fcs_function name="fcs/stabilizer/get-manual-trim-per-tick">
+            <function>
+                <product>
+                    <product>
+                        <product>
+                            <property> fcs/stabilizer/manual-trim-rate </property>
+                            <property> simulation/dt </property>
+                        </product>
+                        <property> fcs/stabilizer/manual-trim-direction </property>
+                    </product>
+                    <property> fcs/stabilizer/manual-active </property>
+                </product>
+            </function>
+            <output> fcs/stabilizer/get-manual-trim-per-tick </output>
+            </fcs_function>
+
+            <fcs_function name="fcs/stabilizer/get-mcas-trim-per-tick">
+            <function>
+                <product>
+                    <product>
+                        <product>
+                            <property> fcs/stabilizer/mcas-trim-rate </property>
+                            <property> simulation/dt </property>
+                        </product>
+                        <property> fcs/stabilizer/mcas-trim-direction </property>
+                    </product>
+                    <property> fcs/stabilizer/mcas-input </property>
+                </product>
+            </function>
+            <output> fcs/stabilizer/get-mcas-trim-per-tick </output>
+            </fcs_function>
+
+            <summer name="fcs/stabilizer/trim-per-tick">
+                <input>  fcs/stabilizer/get-auto-pilot-trim-per-tick </input>
+                <input>  fcs/stabilizer/get-manual-trim-per-tick </input>
+                <input>  fcs/stabilizer/get-mcas-trim-per-tick </input>
+                <output> fcs/stabilizer/trim-per-tick </output>
+            </summer>
+
+            <summer name="fcs/stabilizer/stab-unit">
+                <input>  fcs/stabilizer/stabilizer-pos-unit </input>
+                <input>  fcs/stabilizer/trim-per-tick </input>
+                <clipto>
+                    <min> 0 </min>
+                    <max> 17 </max>
+                </clipto>
+                <output> fcs/stabilizer/stabilizer-pos-unit </output>
+            </summer>
+
+            <fcs_function name="fcs/stab">
+            <function>
+                <product>
+                    <sum>
+                        <property> fcs/stabilizer/stabilizer-pos-unit </property>
+                        <value> -4.2 </value>
+                    </sum>
+                    <value> -1 </value>
+                </product>
+            </function>
+            </fcs_function>
+
+
+            <!--*************** MCAS \/ \/ *******************-->
+
+            <!--switch name="fcs/stabilizer/mcas-active">
+                <default value="fcs/stabilizer/mcas-active"/>
+            </switch>
+
+            <switch name="fcs/stabilizer/stab-target-unit">
+                <default value="fcs/stabilizer/stab-target-unit"/>
+                <test value="6.5">
+                    simulation/sim-time-sec LE 0.1
+                </test>
+            </switch>
+
+            <switch name="fcs/stabilizer/stabilizer-pos-unit">
+                <default value="fcs/stabilizer/stabilizer-pos-unit"/>
+                <test value="6.5">
+                    simulation/sim-time-sec LE 0.1
+                </test>
+            </switch-->
+
+            <!-- HS command pulses from MCAS activations -->
+            <!--fcs_function name="fcs/stabilizer/mcas-min-next-activation-time">
+            <function>
+                <sum>
+                    <property> fcs/stabilizer/mcas-timer-end-time </property>
+                    <property> fcs/stabilizer/mcas-min-delay </property>	
+                </sum>
+            </function>
+            </fcs_function>
+
+            <switch name="fcs/stabilizer/no-recent-mcas-fire">
+                <default value="0"/>
+                <test value="1">
+                    simulation/sim-time-sec GE fcs/stabilizer/mcas-min-next-activation-time
+                </test>
+            </switch>
+
+            <fcs_function name="fcs/stabilizer/do-mcas-fire">
+            <function>
+                <product>
+                    <property> fcs/stabilizer/no-recent-mcas-fire </property>
+                    <property> fcs/stabilizer/mcas-active </property>
+                </product>
+            </function>
+            </fcs_function-->
+
+            <!-- timer-active=1 for some duration after mcas fires, then back to 0 -->
+            <!--fcs_function name="fcs/stabilizer/now-plus-mcas-timer">
+            <function>
+                <sum>
+                    <property> simulation/sim-time-sec </property>
+                    <quotient>
+                        <property> fcs/stabilizer/mcas-trim-amount </property>
+                        <property> fcs/stabilizer/mcas-trim-rate </property>
+                    </quotient>
+                </sum>
+            </function>
+            </fcs_function>
+
+            <switch name="fcs/stabilizer/mcas-timer-active">
+                <default value="0"/>
+                <test value="1">
+                    simulation/sim-time-sec LE fcs/stabilizer/mcas-timer-end-time
+                </test>
+            </switch>
+
+            <switch name="fcs/stabilizer/mcas-timer-end-time">
+                <default value="fcs/stabilizer/mcas-timer-end-time"/>
+                <test value="fcs/stabilizer/now-plus-mcas-timer">
+                    fcs/stabilizer/do-mcas-fire == 1
+                </test>
+            </switch-->
+
+            <!-- increment stab-target when mcas fires -->
+            <!--fcs_function name="fcs/stabilizer/stab-target-plus-offset">
+            <function>
+                <sum>
+                    <property> fcs/stabilizer/stab-target-unit </property>
+                    <product>
+                        <property> fcs/stabilizer/mcas-trim-amount </property>
+                        <property> fcs/stabilizer/mcas-trim-direction </property>
+                    </product>
+                </sum>
+            </function>
+            </fcs_function>
+
+            <switch name="fcs/stabilizer/stab-target-unit">
+                <default value="fcs/stabilizer/stab-target-unit"/>
+                <test value="fcs/stabilizer/stab-target-plus-offset">
+                    fcs/stabilizer/do-mcas-fire == 1
+                </test>
+                <clipto>
+                    <min> 0 </min>
+                    <max> 17 </max>
+                </clipto>
+            </switch-->
+
+            <!-- do-trim = 1 for duration after mcas fires -->
+            <!--switch name="fcs/stabilizer/do-trim">
+                <default value="0"/>
+                <test logic="AND" value="1">
+                    <test logic="OR">
+                        fcs/stabilizer/mcas-timer-active == 1
+                        fcs/stabilizer/pilot-trim-stab-target-diff NE 0
+                    </test>
+                    fcs/stabilizer/manual-active == 0
+                </test>
+            </switch-->
+
+            <!-- trim rate decision -->
+            <!--switch name="fcs/stabilizer/trim-rate">
+                <default value="fcs/stabilizer/flaps-trim-rate"/>
+                <test value="fcs/stabilizer/mcas-trim-rate">
+                    fcs/stabilizer/mcas-timer-active == 1
+                </test>
+                <test value="fcs/stabilizer/no-flaps-trim-rate">
+                    fcs/flap-pos-norm == 0
+                </test>
+            </switch-->
+
+            <!--*************** MCAS /\ /\ *******************-->
+
+            <!--*************** MANUAL TRIM \/ \/ *******************-->
+
+            <!--switch name="fcs/stabilizer/manual-active">
+                <default value="fcs/stabilizer/manual-active"/>
+            </switch>
+
+            <switch name="fcs/stabilizer/manual-trim-direction">
+                <default value="fcs/stabilizer/manual-trim-direction"/>
+            </switch>
+
+            <fcs_function name="fcs/stabilizer/manual-trim-rate-total">
+            <function>	
+                <product>
+                    <property> fcs/stabilizer/manual-trim-rate </property>		
+                    <property> fcs/stabilizer/manual-active </property>
+                </product>
+            </function>
+            </fcs_function>
+
+            <fcs_function name="fcs/stabilizer/manual-trim-rate-per-tick-magnitude">
+            <function>
+            <product>
+                <property> fcs/stabilizer/manual-trim-rate-total </property>
+                <property> simulation/dt </property>
+            </product>
+            </function>
+            </fcs_function>
+
+            <fcs_function name="fcs/stabilizer/manual-stab-target-plus-offset">
+            <function>
                 <sum>
                     <property> fcs/stabilizer/stabilizer-pos-unit </property>
-                    <value> -4.2 </value>
+                    <product>
+                        <property> fcs/stabilizer/manual-trim-rate-per-tick-magnitude </property>
+                        <property> fcs/stabilizer/manual-trim-direction </property>
+                    </product>
                 </sum>
-                <value> -1 </value>
-              </product>
             </function>
-          </fcs_function>
+            </fcs_function>
 
+            <switch name="fcs/stabilizer/stab-target-unit">
+                <default value="fcs/stabilizer/stab-target-unit"/>
+                <test value="fcs/stabilizer/manual-stab-target-plus-offset">
+                    fcs/stabilizer/manual-active == 1
+                </test>
+                <clipto>
+                    <min> 0 </min>
+                    <max> 17 </max>
+                </clipto>
+            </switch>
+
+            <summer name="fcs/stabilizer/manual-errorfree-stab-error">
+                <input>  fcs/stabilizer/stab-target-unit </input>
+                <input> -fcs/stabilizer/stabilizer-pos-unit </input>
+                <clipto>
+                    <min> -fcs/stabilizer/manual-trim-rate-per-tick-magnitude </min>
+                    <max>  fcs/stabilizer/manual-trim-rate-per-tick-magnitude </max>
+                </clipto>
+                <output> fcs/stabilizer/manual-stab-error </output>
+            </summer-->
+
+            <!--*************** MANUAL TRIM /\ /\ *******************-->
+
+            <!--*************** PILOT TRIM \/ \/ *******************-->
+
+            <!--switch name="fcs/stabilizer/pilot-trim-stab-target-diff">
+                <default value="fcs/stabilizer/pilot-trim-stab-target-diff"/>
+            </switch>
+
+            <fcs_function name="fcs/stabilizer/pilot-stab-target-plus-offset">
+            <function>
+                <sum>
+                    <property> fcs/stabilizer/stab-target-unit </property>
+                    <property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
+                </sum>
+            </function>
+            </fcs_function>
+
+            <switch name="fcs/stabilizer/stab-target-unit">
+                <default value="fcs/stabilizer/stab-target-unit"/>
+                <test value="fcs/stabilizer/pilot-stab-target-plus-offset">
+                    fcs/stabilizer/pilot-trim-stab-target-diff NE 0
+                </test>
+                <clipto>
+                    <min> 0 </min>
+                    <max> 17 </max>
+                </clipto>
+            </switch-->
+
+            <!--*************** PILOT TRIM /\ /\ *******************-->
+
+            <!--fcs_function name="fcs/stabilizer/trim-rate-total">
+            <function>	
+                <product>
+                    <property> fcs/stabilizer/trim-rate </property>		
+                    <property> fcs/stabilizer/do-trim </property-->
+                    <!--value> 1 </value-->
+                <!--/product>
+            </function>
+            </fcs_function>
+
+            <fcs_function name="fcs/stabilizer/trim-rate-per-tick-magnitude">
+            <function>
+            <product>
+                <abs>
+                    <property> fcs/stabilizer/trim-rate-total </property>
+                </abs>
+                <property> simulation/dt </property>
+            </product>
+            </function>
+            </fcs_function>
+
+                <summer name="fcs/stabilizer/errorfree-stab-error">
+                    <input>  fcs/stabilizer/stab-target-unit </input>
+                    <input> -fcs/stabilizer/stabilizer-pos-unit </input>
+                    <clipto>
+                    <min> -fcs/stabilizer/trim-rate-per-tick-magnitude </min>
+                    <max>  fcs/stabilizer/trim-rate-per-tick-magnitude </max>
+                    </clipto>
+                    <output> fcs/stabilizer/stab-error </output>
+                </summer>
+
+                <summer name="fcs/stabilizer/stabilizer-pos-unit">
+                    <input> fcs/stabilizer/stabilizer-pos-unit </input>
+                    <input> fcs/stabilizer/manual-stab-error </input>
+                    <input> fcs/stabilizer/stab-error </input>
+                    <output> fcs/stabilizer/stabilizer-pos-unit </output>
+                </summer>
+
+                <fcs_function name="fcs/stab">
+                    <function>
+                    <product>
+                        <sum>
+                            <property> fcs/stabilizer/stabilizer-pos-unit </property>
+                            <value> -4.2 </value>
+                        </sum>
+                        <value> -1 </value>
+                    </product>
+                    </function>
+                </fcs_function-->
         </channel>
 
     </flight_control>
@@ -1094,4 +1342,3 @@
  </input-->  
 
 </fdm_config>
-
