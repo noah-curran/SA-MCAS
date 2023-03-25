@@ -1,4 +1,4 @@
-function run_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_anomalies, override_init_conds, do_csv, file_name)
+function do_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_anomalies, override_init_conds, do_csv, file_name)
     select_script(script, override_init_conds);
     select_MCAS(MCAS);
 

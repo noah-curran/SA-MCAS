@@ -1,7 +1,7 @@
 %% script descriptions found in Documentation/Pilot Simulator/
 % List of scripts:
 % straight_and_level
-% straight_and_level_accelerkenate
+% straight_and_level_accelerate
 % straight_and_climb
 % straight_and_descend
 % level_turns
@@ -59,7 +59,7 @@ function param_batch_accelerate()
 
             store_anomaly_params("anomalies/EmptyInjection.json");
             set_init_conds(10000, start_spd, 0, 0, 0, 0, 90);
-            run_sim("straight_and_level_accelerate", "none", 100, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+            do_sim("straight_and_level_accelerate", "none", 100, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
         end
     end
 end % function
@@ -90,7 +90,7 @@ function param_batch_climbturn()
 
             store_anomaly_params("anomalies/EmptyInjection.json");
             set_init_conds(start_alt, 240, 0, 0, 0, 0, start_heading);
-            run_sim("climb_and_turn", "none", 300, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+            do_sim("climb_and_turn", "none", 300, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
         end
     end
 end % function
@@ -123,7 +123,7 @@ function param_batch_descturn()
             set_init_conds(start_alt, 240, 0, 0, 0, 0, start_heading);
             % Using climb_and_turn with negative climb because it's the
             % same as descend and turn
-            run_sim("climb_and_turn", "none", 300, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+            do_sim("climb_and_turn", "none", 300, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
         end
     end
 end % function
@@ -148,7 +148,7 @@ function param_batch_holdingpattern()
 
             store_anomaly_params("anomalies/EmptyInjection.json");
             set_init_conds(10000, 240, 0, 0, 0, 0, start_heading);
-            run_sim("holding_pattern", "none", 600, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+            do_sim("holding_pattern", "none", 600, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
         end
     end
 end % function
@@ -177,7 +177,7 @@ function param_batch_landing()
 
                 store_anomaly_params("anomalies/EmptyInjection.json");
                 set_init_conds(start_alt, 200, 0, 0, 0, 0, 90);
-                run_sim("landing", "none", 600, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+                do_sim("landing", "none", 600, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
             end
         end
     end
@@ -200,7 +200,7 @@ function param_batch_levelturns()
 
         store_anomaly_params("anomalies/EmptyInjection.json");
         set_init_conds(10000, 240, 0, 0, 0, 0, start_heading);
-        run_sim("level_turns", "none", 200, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+        do_sim("level_turns", "none", 200, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
     end
 end % function
 
@@ -224,7 +224,7 @@ function param_batch_straightclimb()
 
             store_anomaly_params("anomalies/EmptyInjection.json");
             set_init_conds(start_alt, 300, 0, 0, 0, 0, 90);
-            run_sim("straight_and_climb", "none", 400, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+            do_sim("straight_and_climb", "none", 400, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
         end
     end
 end % function
@@ -249,7 +249,7 @@ function param_batch_straightdescend()
 
             store_anomaly_params("anomalies/EmptyInjection.json");
             set_init_conds(start_alt, 300, 0, 0, 0, 0, 90);
-            run_sim("straight_and_climb", "none", 600, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
+            do_sim("straight_and_climb", "none", 600, evalin("base", "sortedParams"), 0, 0, 1, 1, filename);
         end
     end
 end % function
@@ -285,7 +285,7 @@ function param_batch_takeoff()
                     store_anomaly_params("anomalies/EmptyInjection.json");
                     % using default initial conditions
                     % set_init_conds(12, 0, 0, 0, 0, 0, start_heading);
-                    run_sim("takeoff", "none", 500, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+                    do_sim("takeoff", "none", 500, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
                 end
             end
         end
@@ -318,7 +318,7 @@ function param_batch_takeoffstall()
                 store_anomaly_params("anomalies/EmptyInjection.json");
                 % using default initial conditions
                 % set_init_conds(pitch_target, 200, 0, 0, 0, 0, 90);
-                run_sim("takeoff_stall", "none", 500, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+                do_sim("takeoff_stall", "none", 500, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
             end
         end
     end

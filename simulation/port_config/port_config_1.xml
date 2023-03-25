@@ -56,6 +56,7 @@
             	<property> propulsion/engine[1]/n1 </property>
             	<property> fcs/elevator-cmd-norm </property>
             	<property> fcs/stabilizer/stabilizer-pos-unit </property>
+		<property> aero/alpha-deg </property>
 
 	    	<!-- Elevator -->
             	<property> position/h-sl-ft </property>
