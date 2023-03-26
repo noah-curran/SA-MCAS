@@ -18,4 +18,4 @@ initialize_sim_config;
 store_anomaly_params(append('anomalies/EmptyInjection.json'));
 set_script_parameters([zeros(1, 21), 80, 300, 100, 0]);
 filename = append("../data-collection/simulation-export/manual_output.csv");
-do_sim("takeoff_stall", "none", 300, evalin("base", "sortedParams"), 1, 0, 0, 1, filename);
+do_sim("takeoff_stall", "none", 300, evalin("base", "sortedParams"), 1, 0, 0, 0, filename);

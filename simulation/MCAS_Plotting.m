@@ -46,7 +46,12 @@ JT610_altitude = readmatrix("JT610_Granular_ADSB_Data.xlsx", "Range", "I2:I845")
 %plot_3d(output_name);
 plot_alt_speed(output_name);
 figure();
-plot(alpha);
+hold on;
+plot(time, alpha);
+plot(time, pitch);
+yyaxis("right");
+plot(time, elevator_cmd);
+legend("AoA", "Pitch", "Elevator Cmd");
 
 %% Plotting Anomaly/No Anomaly Figures
 % %i_start_t = find(time>=100,1);
