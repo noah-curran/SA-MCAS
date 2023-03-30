@@ -32,7 +32,9 @@ function select_script(script_str, override_init_conds)
                 set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
             case "takeoff_JT610"
                 set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
-            case "takeoff_stall"
+            case "takeoff_stall_perfect_pilot"
+                set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
+            case "takeoff_stall_pilot_reaction_delay"
                 set_init_conds(3.7, 0, 0, 0, 0, 0, 90);
             case "landing"
                 set_init_conds(3000, 200, 0, 0, 0, 0, 90);

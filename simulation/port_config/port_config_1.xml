@@ -57,6 +57,7 @@
             	<property> fcs/elevator-cmd-norm </property>
             	<property> fcs/stabilizer/stabilizer-pos-unit </property>
 		<property> aero/alpha-deg </property>
+		<property> fcs/stabilizer/mcas-input </property>
 
 	    	<!-- Elevator -->
             	<property> position/h-sl-ft </property>
@@ -90,12 +91,7 @@
         </output>
 
 	<output name="HS Controls Debug">
-	        <property> fcs/stabilizer/manual-active </property>
-	    	<property> fcs/stabilizer/manual-trim-direction </property>
-	    	<property> fcs/stabilizer/stabilizer-pos-unit </property>
-	    	<property> fcs/stabilizer/stab-target-unit </property>
-	    	<property> fcs/elevator-cmd-norm </property>
-	    	<property> fcs/stabilizer/trim-per-tick </property>
+	    	<property> fcs/stabilizer/mcas-input </property>
         </output>
     </outputs>
 
