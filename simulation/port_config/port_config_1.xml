@@ -92,6 +92,8 @@
 
 	<output name="HS Controls Debug">
 	    	<property> fcs/stabilizer/mcas-input </property>
+		<property> fcs/stabilizer/stabilizer-pos-unit </property>
+		<property> fcs/elevator-cmd-norm </property>
         </output>
     </outputs>
 
