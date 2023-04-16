@@ -448,22 +448,30 @@
         </channel>
 
 
-        <property value="-1"> fcs/stabilizer/mcas-trim-direction </property> 		<!-- "-1" causes MCAS to push nose down -->
         <property value="0.38"> fcs/stabilizer/auto-pilot-flaps-trim-rate </property>
         <property value="0.2"> fcs/stabilizer/auto-pilot-no-flaps-trim-rate </property>
-        <property value="0.27"> fcs/stabilizer/mcas-trim-rate </property>
-        <property value="2.5"> fcs/stabilizer/mcas-trim-amount </property>
-        <property value="11"> fcs/stabilizer/mcas-min-delay </property>
-        <property value="0.4"> fcs/stabilizer/manual-trim-rate </property>
 
-        <!--property value="0"> fcs/stabilizer/mcas-active </property>
-        <property value="0"> fcs/stabilizer/manual-active </property-->
+	<property value="0.4"> fcs/stabilizer/manual-trim-rate </property>
+	<!--property value="0"> fcs/stabilizer/manual-trim-rate </property-->
 
+        <property value="-1"> fcs/stabilizer/mcas-trim-direction </property> 		<!-- "-1" causes MCAS to push nose down -->
 
 	<channel name="Stabilizer">
 
-            <switch name="fcs/stabilizer/pilot-trim-stab-target-diff">
-                <default value="fcs/stabilizer/pilot-trim-stab-target-diff"/>
+	    <switch name="fcs/stabilizer/mcas-min-delay">
+                <default value="fcs/stabilizer/mcas-min-delay"/>
+            </switch>
+
+	    <switch name="fcs/stabilizer/mcas-trim-amount">
+                <default value="fcs/stabilizer/mcas-trim-amount"/>
+            </switch>
+
+	    <switch name="fcs/stabilizer/mcas-trim-rate">
+                <default value="fcs/stabilizer/mcas-trim-rate"/>
+            </switch>
+
+            <switch name="fcs/stabilizer/autopilot-trim-stab-target-diff">
+                <default value="fcs/stabilizer/autopilot-trim-stab-target-diff"/>
             </switch>
 
             <switch name="fcs/stabilizer/mcas-active">
@@ -477,7 +485,7 @@
             <switch name="fcs/stabilizer/auto-pilot-trim-active">
                 <default value="0"/>
                 <test value="1">
-                    fcs/stabilizer/pilot-trim-stab-target-diff NE 0
+                    fcs/stabilizer/autopilot-trim-stab-target-diff NE 0
                 </test>
             </switch>
 
@@ -488,10 +496,10 @@
             <switch name="fcs/stabilizer/auto-pilot-trim-direction">
                 <default value="0"/>
                 <test value="1">
-                    fcs/stabilizer/pilot-trim-stab-target-diff GT 0
+                    fcs/stabilizer/autopilot-trim-stab-target-diff GT 0
                 </test>
                 <test value="-1">
-                    fcs/stabilizer/pilot-trim-stab-target-diff LT 0
+                    fcs/stabilizer/autopilot-trim-stab-target-diff LT 0
                 </test>
             </switch>
 

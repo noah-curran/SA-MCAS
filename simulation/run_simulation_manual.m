@@ -9,5 +9,6 @@ clc; clear;
 initialize_sim_config;
 store_anomaly_params(append('anomalies/EmptyInjection.json'));
 set_script_parameters([zeros(1, 21), 50, 300, 100, 3]);
+set_mcas_parameters([11, 2.5, 0.27]);
 filename = append("../data-collection/simulation-export/manual_output.csv");
 do_sim("takeoff_stall_pilot_reaction_delay", "sa_mcas", 600, evalin("base", "sortedParams"), 1, 0, 0, 0, filename);

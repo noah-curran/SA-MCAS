@@ -24,13 +24,18 @@
         <property> fcs/throttle-cmd-norm[1] </property>
 
 	<!-- Horizontal Stabilizer From Pilot -->
-	<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
+	<property> fcs/stabilizer/autopilot-trim-stab-target-diff </property>
         <property> fcs/stabilizer/manual-active </property>
         <property> fcs/stabilizer/manual-trim-direction </property>
 
     	<!-- Horizontal Stabilizer From MCAS -->
         <property> fcs/pitch-trim-cmd-norm </property>
 	<property> fcs/stabilizer/mcas-active </property>
+
+	<!-- Horizontal Stabilizer From MATLAB Workspace -->
+	<property> fcs/stabilizer/mcas-min-delay </property>
+	<property> fcs/stabilizer/mcas-trim-amount </property>
+	<property> fcs/stabilizer/mcas-trim-rate </property>
     </input>
 
     <outputs>
@@ -94,6 +99,8 @@
 	    	<property> fcs/stabilizer/mcas-input </property>
 		<property> fcs/stabilizer/stabilizer-pos-unit </property>
 		<property> fcs/elevator-cmd-norm </property>
+		<property> fcs/stabilizer/manual-active </property>
+		<property> fcs/stabilizer/autopilot-trim-stab-target-diff </property>
         </output>
     </outputs>
 
