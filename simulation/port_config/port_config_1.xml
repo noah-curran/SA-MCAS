@@ -9,6 +9,7 @@
         <property> fcs/flap-cmd-norm </property>
 	<property> fcs/brake-left-cmd </property>
 	<property> fcs/brake-right-cmd </property>
+	<property> fcs/stabilizer/pilot-reaction-delay </property>
 
 	<!-- Elevator -->
         <property> fcs/elevator-cmd-norm </property>
@@ -36,6 +37,12 @@
 	<property> fcs/stabilizer/mcas-min-delay </property>
 	<property> fcs/stabilizer/mcas-trim-amount </property>
 	<property> fcs/stabilizer/mcas-trim-rate </property>
+	<property> fcs/stabilizer/rotations-per-degree </property>
+        <property> fcs/stabilizer/rotations-per-second </property>
+        <property> fcs/stabilizer/initial-pilot-energy </property>
+        <property> fcs/stabilizer/energy-input-rate </property>
+        <property> fcs/stabilizer/background-energy-burn-rate </property>
+	<property> fcs/stabilizer/trimming-energy-burn-rate </property>
     </input>
 
     <outputs>
@@ -93,14 +100,12 @@
 	        <property> position/h-sl-ft </property>
             	<property> accelerations/a-pilot-z-ft_sec2 </property>
             	<property> aero/alpha-deg </property>
+            	<property> atmosphere/P-psf </property>
         </output>
 
 	<output name="HS Controls Debug">
-	    	<property> fcs/stabilizer/mcas-input </property>
-		<property> fcs/stabilizer/stabilizer-pos-unit </property>
-		<property> fcs/elevator-cmd-norm </property>
-		<property> fcs/stabilizer/manual-active </property>
-		<property> fcs/stabilizer/autopilot-trim-stab-target-diff </property>
+        	<property> fcs/stabilizer/pilot-energy </property>
+		<property> fcs/stabilizer/vertical-forces-total-lbs </property>
         </output>
     </outputs>
 

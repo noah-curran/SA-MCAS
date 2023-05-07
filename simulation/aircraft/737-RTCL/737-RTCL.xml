@@ -447,16 +447,41 @@
 
         </channel>
 
+************************************************************************************************************************************************************************************************
 
         <property value="0.38"> fcs/stabilizer/auto-pilot-flaps-trim-rate </property>
         <property value="0.2"> fcs/stabilizer/auto-pilot-no-flaps-trim-rate </property>
 
-	<property value="0.4"> fcs/stabilizer/manual-trim-rate </property>
-	<!--property value="0"> fcs/stabilizer/manual-trim-rate </property-->
-
+	<property value="0.4"> fcs/stabilizer/manual-trim-rate </property>		<!-- (NOT) replaced with function below -->
+	<property value="7.2"> fcs/stabilizer/rotations-per-second </property>
+        <property value="18.0"> fcs/stabilizer/rotations-per-degree </property>
+	
         <property value="-1"> fcs/stabilizer/mcas-trim-direction </property> 		<!-- "-1" causes MCAS to push nose down -->
 
 	<channel name="Stabilizer">
+
+	    <switch name="fcs/stabilizer/rotations-per-degree">
+                <default value="fcs/stabilizer/rotations-per-degree"/>
+            </switch>
+
+	    <switch name="fcs/stabilizer/rotations-per-second">
+                <default value="fcs/stabilizer/rotations-per-second"/>
+            </switch>
+
+	    <switch name="fcs/stabilizer/initial-pilot-energy">
+                <default value="fcs/stabilizer/initial-pilot-energy"/>
+            </switch>
+
+												<!-- some sort of integer division issue? -->
+	    <!--fcs_function name="fcs/stabilizer/manual-trim-rate">		
+            <function>
+		<quotient>
+			<property> fcs/stabilizer/rotations-per-second </property>
+                        <property> fcs/stabilizer/rotations-per-degree </property>
+		</quotient>
+	    </function>
+            <output> fcs/stabilizer/manual-trim-rate </output>
+            </fcs_function-->
 
 	    <switch name="fcs/stabilizer/mcas-min-delay">
                 <default value="fcs/stabilizer/mcas-min-delay"/>
@@ -645,6 +670,95 @@
                 </product>
             </function>
             </fcs_function>
+
+	    <switch name="fcs/stabilizer/pilot-reaction-delay">
+                <default value="fcs/stabilizer/pilot-reaction-delay"/>
+            </switch>
+
+            <switch name="fcs/stabilizer/pilot-energy">
+                <default value="fcs/stabilizer/pilot-energy"/>
+                <test value="fcs/stabilizer/initial-pilot-energy">
+                    simulation/sim-time-sec LE 0.1
+                </test>
+            </switch>
+
+	    <switch name="fcs/stabilizer/energy-input-rate">
+                <default value="fcs/stabilizer/energy-input-rate"/>
+            </switch>
+
+	    <switch name="fcs/stabilizer/background-energy-burn-rate">
+                <default value="fcs/stabilizer/background-energy-burn-rate"/>
+            </switch>
+
+	    <switch name="fcs/stabilizer/trimming-energy-burn-rate">
+                <default value="fcs/stabilizer/trimming-energy-burn-rate"/>
+            </switch>
+
+	    <fcs_function name="fcs/stabilizer/pilot-energy">
+            <function>
+		<sum>
+		<property> fcs/stabilizer/pilot-energy </property>
+		<product>
+			<property> simulation/dt </property>
+			<sum>
+				<property> fcs/stabilizer/energy-input-rate </property>
+				<property> -fcs/stabilizer/background-energy-burn-rate </property>
+				<product>
+					<property> fcs/stabilizer/manual-active </property>
+					<property> -fcs/stabilizer/trimming-energy-burn-rate </property>
+				</product>
+			</sum>
+		</product>
+		</sum>
+            </function>
+            <output> fcs/stabilizer/pilot-energy </output>
+            </fcs_function>
+
+	    <fcs_function name="fcs/stabilizer/potential-tau-action">
+            <function>
+                <quotient>
+                    <property> fcs/stabilizer/mcas-trim-amount </property>
+		    <property> fcs/stabilizer/manual-trim-rate </property>
+                </quotient>
+            </function>
+            <output> fcs/stabilizer/potential-tau-action </output>
+            </fcs_function>
+
+	    <switch name="fcs/stabilizer/tau-action">
+                <default value="999999999"/>
+                <test value="fcs/stabilizer/potential-tau-action">
+                    fcs/stabilizer/pilot-energy GT 0
+                </test>
+            </switch>
+
+            <summer name="fcs/stabilizer/tau-total">
+                <input>  fcs/stabilizer/pilot-reaction-delay </input>
+                <input>  fcs/stabilizer/tau-action </input>
+                <output> fcs/stabilizer/tau-total </output>
+            </summer>
+
+	    <fcs_function name="fcs/stabilizer/vertical-forces-total-lbs">
+	    <function>
+	    <sum>
+		<property> forces/fbz-total-lbs </property>
+                <value>  106700 </value>			<!-- weight of plane -->
+	    </sum>
+	    </function>
+                <output> fcs/stabilizer/vertical-forces-total </output>
+            </fcs_function>
+
+	    <fcs_function name="fcs/stabilizer/terminal-velocity">
+	    <function>
+	    <sum>
+		<property> forces/fbz-total-lbs </property>
+                <value>  106700 </value>			<!-- weight of plane -->
+	    </sum>
+	    </function>
+                <output> fcs/stabilizer/vertical-forces-total </output>
+            </fcs_function>
+
+
+************************************************************************************************************************************************************************************************
 
         </channel>
 
