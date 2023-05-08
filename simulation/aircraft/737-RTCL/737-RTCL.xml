@@ -714,48 +714,31 @@
             <output> fcs/stabilizer/pilot-energy </output>
             </fcs_function>
 
-	    <fcs_function name="fcs/stabilizer/potential-tau-action">
-            <function>
-                <quotient>
-                    <property> fcs/stabilizer/mcas-trim-amount </property>
-		    <property> fcs/stabilizer/manual-trim-rate </property>
-                </quotient>
-            </function>
-            <output> fcs/stabilizer/potential-tau-action </output>
-            </fcs_function>
-
-	    <switch name="fcs/stabilizer/tau-action">
-                <default value="999999999"/>
-                <test value="fcs/stabilizer/potential-tau-action">
-                    fcs/stabilizer/pilot-energy GT 0
+            <switch name="fcs/stabilizer/altitude-deadline-met">
+                <default value="1"/>
+                <test logic="AND" value="0">
+                    position/h-agl-ft LE 10		<!-- compare to 10ft, not 0ft, because sometime plane "bounces" off ground -->
+		    simulation/sim-time-sec GE 50	<!-- wouldn't want to detect failure before plane takes off -->
                 </test>
             </switch>
 
-            <summer name="fcs/stabilizer/tau-total">
-                <input>  fcs/stabilizer/pilot-reaction-delay </input>
-                <input>  fcs/stabilizer/tau-action </input>
-                <output> fcs/stabilizer/tau-total </output>
-            </summer>
-
-	    <fcs_function name="fcs/stabilizer/vertical-forces-total-lbs">
-	    <function>
-	    <sum>
-		<property> forces/fbz-total-lbs </property>
-                <value>  106700 </value>			<!-- weight of plane -->
-	    </sum>
-	    </function>
-                <output> fcs/stabilizer/vertical-forces-total </output>
+	    <fcs_function name="fcs/stabilizer/pilot-undo-mcas-time">
+            <function>
+		<quotient>
+			<property> fcs/stabilizer/mcas-trim-amount </property>
+			<property> fcs/stabilizer/manual-trim-rate </property>
+		</quotient>
+            </function>
+            <output> fcs/stabilizer/pilot-undo-mcas-time </output>
             </fcs_function>
 
-	    <fcs_function name="fcs/stabilizer/terminal-velocity">
-	    <function>
-	    <sum>
-		<property> forces/fbz-total-lbs </property>
-                <value>  106700 </value>			<!-- weight of plane -->
-	    </sum>
-	    </function>
-                <output> fcs/stabilizer/vertical-forces-total </output>
-            </fcs_function>
+            <switch name="fcs/stabilizer/total-deadline-met">
+                <default value="1"/>
+                <test logic="OR" value="0">
+                    fcs/stabilizer/altitude-deadline-met NE 1
+		    fcs/stabilizer/pilot-undo-mcas-time GE fcs/stabilizer/mcas-min-delay
+                </test>
+            </switch>
 
 
 ************************************************************************************************************************************************************************************************
@@ -1015,7 +998,7 @@
                     <value>0.6</value>
                 </product>
             </function>
-
+ 
         </axis>
 
         <axis name="ROLL">

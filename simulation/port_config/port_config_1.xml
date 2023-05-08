@@ -104,8 +104,9 @@
         </output>
 
 	<output name="HS Controls Debug">
-        	<property> fcs/stabilizer/pilot-energy </property>
-		<property> fcs/stabilizer/vertical-forces-total-lbs </property>
+		<property> fcs/stabilizer/stabilizer-pos-unit </property>
+            	<property> fcs/elevator-cmd-norm </property>
+		<property> fcs/stabilizer/mcas-input </property>
         </output>
     </outputs>
 
