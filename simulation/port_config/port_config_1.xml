@@ -70,6 +70,9 @@
             	<property> fcs/stabilizer/stabilizer-pos-unit </property>
 		<property> aero/alpha-deg </property>
 		<property> fcs/stabilizer/mcas-input </property>
+		<property> fcs/stabilizer/mcas-min-delay </property>
+		<property> fcs/stabilizer/mcas-trim-amount </property>
+		<property> fcs/stabilizer/mcas-trim-rate </property>
 
 	    	<!-- Elevator -->
             	<property> position/h-sl-ft </property>
