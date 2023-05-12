@@ -449,10 +449,11 @@
 
 ************************************************************************************************************************************************************************************************
 
+
         <property value="0.38"> fcs/stabilizer/auto-pilot-flaps-trim-rate </property>
         <property value="0.2"> fcs/stabilizer/auto-pilot-no-flaps-trim-rate </property>
 
-	<property value="0.4"> fcs/stabilizer/manual-trim-rate </property>		<!-- (NOT) replaced with function below -->
+	<property value="0.4"> fcs/stabilizer/manual-trim-rate </property>		<!-- (NOT) replaced with function below. Also need to modify autopilot-trim-rate -->
 	<property value="7.2"> fcs/stabilizer/rotations-per-second </property>
         <property value="18.0"> fcs/stabilizer/rotations-per-degree </property>
 	
@@ -590,7 +591,7 @@
                 <default value="0"/>
                 <test logic="AND" value="1">
                     simulation/sim-time-sec LE fcs/stabilizer/mcas-end-last-activation
-                    fcs/stabilizer/mcas-active == 1
+                    simulation/sim-time-sec GE 10
                 </test>
             </switch>
 

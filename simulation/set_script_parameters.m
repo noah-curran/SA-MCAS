@@ -29,20 +29,3 @@ end % function
 %     23. takeoffstall_final_climb_airspeed
 %     24. takeoffstall_pullup_time
 %     25. pilot_reaction_time
-
-%%     Noah's OLD order:
-%     1. accel_speed
-%     2. climb_alt
-%     3. levelturn_hdg
-%     4. climbturn_alt
-%     5. climbturn_hdg
-%     6. descturn_alt
-%     7. descturn_hdg
-%     8. hldpat_alt
-%     9. hldpat_hdg
-%     10. takeoff_pitch
-%     11. takeoff_thrust
-%     12. takeoff_speed
-%     13. takeoff_alt
-%     14. landing_speed
-%     15. pilot_reaction
