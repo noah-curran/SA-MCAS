@@ -25,7 +25,7 @@
         <property> fcs/throttle-cmd-norm[1] </property>
 
 	<!-- Horizontal Stabilizer From Pilot -->
-	<property> fcs/stabilizer/autopilot-trim-stab-target-diff </property>
+	<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
         <property> fcs/stabilizer/manual-active </property>
         <property> fcs/stabilizer/manual-trim-direction </property>
 
@@ -112,6 +112,7 @@
 		<property> fcs/stabilizer/mcas-active </property>
 		<property> fcs/stabilizer/mcas-input </property>
             	<property> aero/alpha-deg </property>
+            	<property> fcs/stabilizer/pilot-trim-rate </property>
         </output>
     </outputs>
 

@@ -6,8 +6,8 @@ end % function
 % 1. MCAS cooldown time
 % 2. MCAS trim amount (deg)
 % 3. MCAS trim rate (deg/s)
-% 4. Trim wheel rotations per degree
-% 5. Trim wheel rotations per second (as performed by pilot)
+% 4. Pilot trim wheel rotations per degree
+% 5. Pilot trim wheel rotations per second
 % 6. Initial pilot energy
 % 7. Energy input rate
 % 8. Background energy burn rate
