@@ -719,10 +719,13 @@
 
 	    <fcs_function name="fcs/stabilizer/pilot-undo-mcas-time">
             <function>
-		<quotient>
-			<property> fcs/stabilizer/mcas-trim-amount </property>
-			<property> fcs/stabilizer/manual-trim-rate </property>
-		</quotient>
+		    <sum>
+                <property> fcs/stabilizer/pilot-reaction-delay </property>
+                <quotient>
+			    <property> fcs/stabilizer/mcas-trim-amount </property>
+			    <property> fcs/stabilizer/manual-trim-rate </property>
+		        </quotient>
+            </sum>
             </function>
             <output> fcs/stabilizer/pilot-undo-mcas-time </output>
             </fcs_function>

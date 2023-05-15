@@ -103,7 +103,7 @@
 	        <property> position/h-sl-ft </property>
             	<property> accelerations/a-pilot-z-ft_sec2 </property>
             	<property> aero/alpha-deg </property>
-            	<property> atmosphere/P-psf </property>
+        <property> fcs/stabilizer/total-deadline-met </property>
         </output>
 
 	<output name="HS Controls Debug">
@@ -112,7 +112,8 @@
 		<property> fcs/stabilizer/mcas-active </property>
 		<property> fcs/stabilizer/mcas-input </property>
             	<property> aero/alpha-deg </property>
-            	<property> fcs/stabilizer/pilot-trim-rate </property>
+        <property> fcs/stabilizer/pilot-trim-rate </property>
+        
         </output>
     </outputs>
 
