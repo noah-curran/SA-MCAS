@@ -1,7 +1,8 @@
-function do_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_anomalies, override_init_conds, do_csv, file_name)
+function is_success = do_sim(script, MCAS, sim_time_sec, injection_params, do_plot, ...
+    do_no_anomalies, override_init_conds, do_csv, file_name)
     select_script(script, override_init_conds);
     select_MCAS(MCAS);
-
+    
     output = sim('MCASSimulation', sim_time_sec);
     
     if do_no_anomalies
@@ -27,4 +28,13 @@ function do_sim(script, MCAS, sim_time_sec, injection_params, do_plot, do_no_ano
             Write_to_CSV(output, file_name);
         end
     end
+
+    h_asl = output.h_asl.Data(:);
+    find(h_asl(:) < 0, 1, 'first')
+    if isempty(find(h_asl(:) < 0, 1, 'first'))
+        is_success = true;
+    else
+        is_success = false;
+    end
+    
 end % function

@@ -5,6 +5,6 @@ do
     do
         id=`bc <<< "scale=1; $i/10"`
         jd=`bc <<< "scale=1; $j/10"`
-        python3 anomaly_generator.py gradual 100 130 2 -t quad -a "$id" -b "$jd" -f 120
+        python3 anomaly_generator.py gradual 100 150 2 -t quad -a "$id" -b "$jd" -f 120
     done
 done

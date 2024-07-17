@@ -2,3 +2,6 @@
 *.asv
 */slprj
 .DS_Store
+mcas_new*
+mcas_old*
+sa_mcas*

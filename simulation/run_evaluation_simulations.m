@@ -14,122 +14,531 @@
 % landing
 
 %% RUN SIMULATIONS
-clc; clear;
+
 initialize_sim_config;
+eps = 0.0001;
+version = 3;
+result_file = 'boundary_results.mat';
 
-sudden_vary_injection(version);
+if exist(result_file, 'file')
+    results = load(result_file).results;
+else
+    results = struct();
+end
 
-%sudden_vary_duration(version);
 
-%sudden_vary_recovery(version);
+for mcas = ["mcas_old", "mcas_new", "sa_mcas"]
 
-%delta_vary_injection(version);
+    if ~isfield(results, mcas)
+        results.(mcas) = struct();
+    end
+    
+    % PILOT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%delta_vary_duration(version);
+    if ~isfield(results.(mcas), 'pilot')
+        results.(mcas).pilot = struct();
+    end
 
-%delta_vary_recovery(version);
+    result = pilot_stall_vary_pitch(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).pilot.pitch = result;
+    end
 
-%gradual_lin_vary_coef(version);     % missing JSON anomaly files.
+    save('boundary_results.mat', 'results');
 
-%gradual_log_vary_coef(version);     % missing JSON anomaly files 0-99?
+    result = pilot_stall_vary_recovery(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).pilot.recovery = result;
+    end
 
-%gradual_quad_vary_coef(version);     % missing JSON anomaly files.
+    save('boundary_results.mat', 'results');
 
+    % SUDDEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    if ~isfield(results.(mcas), 'sudden')
+        results.(mcas).sudden = struct();
+    end
+
+    result = sudden_vary_injection(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).sudden.injection = result;
+    end
+
+    save('boundary_results.mat', 'results');
+
+    result = sudden_vary_duration(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).sudden.duration = result;
+    end
+
+    save('boundary_results.mat', 'results');
+
+    result = sudden_vary_recovery(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).sudden.recovery = result;
+    end
+
+    save('boundary_results.mat', 'results');
+    
+    % DELTA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    if ~isfield(results.(mcas), 'delta')
+        results.(mcas).delta = struct();
+    end
+
+    result = delta_vary_injection(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).delta.injection = result;
+    end
+    
+    save('boundary_results.mat', 'results');
+
+    result = delta_vary_duration(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).delta.duration = result;
+    end
+    
+    save('boundary_results.mat', 'results');
+
+    result = delta_vary_recovery(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).delta.recovery = result;
+    end
+
+    save('boundary_results.mat', 'results');
+
+    % GRADUAL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    if ~isfield(results.(mcas), 'gradual')
+        results.(mcas).gradual = struct();
+    end
+
+    result = gradual_lin_vary_coef(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).gradual.lin = result;
+    end
+    
+    save('boundary_results.mat', 'results');
+
+    result = gradual_log_vary_coef(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).gradual.log = result;
+    end
+    
+    save('boundary_results.mat', 'results');
+
+
+    result = gradual_quad_vary_coef(version, mcas, eps, results);
+    if result ~= -1
+           results.(mcas).gradual.quad = result;
+    end
+    
+    save('boundary_results.mat', 'results');
+
+end
 
 %% EXPERIMENTS
-function sudden_vary_injection(version)
-    %for i=0:30
-    for i=0
-        store_anomaly_params(append('anomalies/sudden_of_', int2str(i), '.0_during_100.0_to_130.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), i, zeros(1, 4), 10]);
-        filename = append("../data-collection/simulation-export/sa_mcas_sudden_injection_val_", int2str(i), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
+function midpoint = pilot_stall_vary_pitch(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
 
-function sudden_vary_duration(version)
-    %for i=10:80
-    for i=10
-        store_anomaly_params(append('anomalies/sudden_of_18.0_during_100.0_to_1', int2str(i), '.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), i, zeros(1, 4), 10]);
-        filename = append("../data-collection/simulation-export/sa_mcas_sudden_injection_duration_", int2str(i), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    if isfield(results.(mcas).pilot, 'pitch')
+        midpoint = -1;
+        return;
     end
-end % function
 
-function sudden_vary_recovery(version)
-    %for i=3:30
-    for i=3
-        store_anomaly_params(append('anomalies/sudden_of_18.0_during_100.0_to_130.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), 18, zeros(1, 4), i]);
-        filename = append("../data-collection/simulation-export/sa_mcas_sudden_injection_delayed_recovery_", int2str(i), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
+    low = 20;
+    high = 90;
+    next = -1;
 
-function delta_vary_injection(version)
-    %for i=0:30
-    for i=0
-        store_anomaly_params(append('anomalies/delta_of_', int2str(i), '.0_during_100.0_to_130.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), i, zeros(1, 4), 10]);
-        filename = append("../data-collection/simulation-export/sa_mcas_delta_injection_val_", int2str(i), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
+    while abs(low - high) > eps
+        next = (low+high)/2;
 
-function delta_vary_duration(version)
-    %for i=10:80
-    for i=10
-        store_anomaly_params(append('anomalies/delta_of_18.0_during_100.0_to_1', int2str(i), '.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), i, zeros(1, 4), 10]);
-        filename = append("../data-collection/simulation-export/sa_mcas_delta_injection_duration_", int2str(i), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
-
-function delta_vary_recovery(version)
-    %for i=3:30
-    for i=3
-        store_anomaly_params(append('anomalies/delta_of_18.0_during_100.0_to_130.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), 18, zeros(1, 4), i]);
-        filename = append("../data-collection/simulation-export/sa_mcas_delta_injection_delayed_recovery_", int2str(i), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
-
-function gradual_lin_vary_coef(version)
-    %for i=0:30
-    for i=0
-        a = i/10;
-        store_anomaly_params(append('anomalies/gradual_of_lin_', num2str(a, '%.1f'), '_0.0_120.0_during_100.0_to_130.0_on_2.json'));
-        %set_script_parameters([zeros(1, 13), 18, 10]);
-        filename = append("../data-collection/simulation-export/sa_mcas_gradual_injection_lin_coef_", num2str(a, '%.1f'), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
-
-function gradual_log_vary_coef(version)
-    %for i=0:200
-    for i=100
-        store_anomaly_params(append('anomalies/gradual_of_log_', num2str(i, '%.1f'), '_0.0_120.0_during_100.0_to_130.0_on_2.json'));
-        set_script_parameters([zeros(1, 19), 18, zeros(1, 4), 22.5]);
-        filename = append("../data-collection/simulation-export/sa_mcas_gradual_injection_log_coef_", num2str(i, '%.1f'), "_recovery_enabled_grad_", int2str(version), ".csv");
-        do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
-    end
-end % function
-
-function gradual_quad_vary_coef(version)
-    %for i=0:10
-    for i=0
-        a = i/10;
-        %for j=0:30
-        for j=0
-            b = j/10;
-            store_anomaly_params(append('anomalies/gradual_of_quad_', num2str(a, '%.1f'), '_', num2str(b, '%.1f'), '_120.0_during_100.0_to_130.0_on_2.json'));
-            %set_script_parameters([zeros(1, 13), 18, 10]);
-            set_script_parameters([zeros(1, 19), 18, zeros(1, 4), 10]);
-            filename = append("../data-collection/simulation-export/sa_mcas_gradual_injection_quad_coef_", num2str(a, '%.1f'), "_", num2str(b, '%.1f'), "_recovery_enabled_grad_", int2str(version), ".csv");
-            do_sim("takeoff_anomaly", "sa_mcas", 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+        store_anomaly_params('anomalies/EmptyInjection.json');
+        set_script_parameters([zeros(1, 21), next, 250, 100, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_pilot_stall_vary_pitch_val_", num2str(20+next), "_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 350, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+        
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
         end
+
     end
+
+    fprintf('pilot_stall_vary_pitch: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = pilot_stall_vary_recovery(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).pilot, 'recovery')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 10;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params('anomalies/EmptyInjection.json');
+        set_script_parameters([zeros(1, 21), 50, 250, 100, next]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_pilot_stall_vary_recovery_val_", num2str(next), "_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('pilot_stall_vary_recovery: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = sudden_vary_injection(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).sudden, 'injection')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 90;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(1, 100.0, 150.0, next, 2, 0, 0, 0, 0)
+        % store_anomaly_params(append('anomalies/sudden_of_', num2str(next), '.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_sudden_injection_val_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('sudden_vary_injection: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = sudden_vary_duration(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).sudden, 'duration')
+        midpoint = -1;
+        return;
+    end
+
+    low = 110;
+    high = 180;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(1, 100.0, next, 18.0, 2, 0, 0, 0, 0)
+        % store_anomaly_params(append('anomalies/sudden_of_18.0_during_100.0_to_1', int2str(i), '.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_sudden_injection_duration_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('sudden_vary_duration: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = sudden_vary_recovery(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).sudden, 'recovery')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 10;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(1, 100.0, 150.0, 18.0, 2, 0, 0, 0, 0)
+        % store_anomaly_params(append('anomalies/sudden_of_18.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, next]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_sudden_injection_delayed_recovery_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('sudden_vary_recovery: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = delta_vary_injection(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).delta, 'injection')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 90;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(2, 100.0, 150.0, next, 2, 0, 0, 0, 0)
+        % store_anomaly_params(append('anomalies/delta_of_', int2str(i), '.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_delta_injection_val_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('delta_vary_injection: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = delta_vary_duration(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).delta, 'duration')
+        midpoint = -1;
+        return;
+    end
+
+    low = 110;
+    high = 180;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(2, 100.0, next, 18.0, 2, 0, 0, 0, 0)
+        % store_anomaly_params(append('anomalies/delta_of_18.0_during_100.0_to_1', int2str(i), '.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_delta_injection_duration_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('delta_vary_duration: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = delta_vary_recovery(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).delta, 'recovery')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 10;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(2, 100.0, 150.0, 18.0, 2, 0, 0, 0, 0)
+        % store_anomaly_params(append('anomalies/delta_of_18.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, next]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_delta_injection_delayed_recovery_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('delta_vary_recovery: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = gradual_lin_vary_coef(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).gradual, 'lin')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 3;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(3, 100.0, 150.0, 0, 2, 1, next, 0, 120);
+        % store_anomaly_params(append('anomalies/gradual_of_lin_', num2str(a, '%.1f'), '_0.0_120.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_gradual_injection_lin_coef_", num2str(next, '%.1f'), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+
+    end
+
+    fprintf('gradual_lin_vary_coef: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = gradual_log_vary_coef(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).gradual, 'log')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 1000000;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(3, 100.0, 150.0, 0, 2, 3, next, 0, 120);
+        % store_anomaly_params(append('anomalies/gradual_of_log_', num2str(i, '%.1f'), '_0.0_120.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_gradual_injection_log_coef_", num2str(next), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+    
+    end
+
+    fprintf('gradual_log_vary_coef: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
+end % function
+
+function midpoint = gradual_quad_vary_coef(version, mcas, eps, results)
+    clc; clearvars('-except', "mcas", "eps", "version", "results");
+    initialize_sim_config;
+
+    if isfield(results.(mcas).gradual, 'quad')
+        midpoint = -1;
+        return;
+    end
+
+    low = 0;
+    high = 3;
+    next = -1;
+
+    while abs(low - high) > eps
+        next = (low+high)/2;
+
+        store_anomaly_params_json(3, 100.0, 150.0, 0, 2, 2, 0, next, 120);
+        % store_anomaly_params(append('anomalies/gradual_of_quad_', num2str(a, '%.1f'), '_', num2str(b, '%.1f'), '_120.0_during_100.0_to_150.0_on_2.json'));
+        set_script_parameters([zeros(1, 21), 50, 250, 400, 5]);
+        set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
+        filename = append("../data-collection/simulation-export/", mcas, "_gradual_injection_quad_coef_0.0_", num2str(next, '%.1f'), "_recovery_enabled_grad_", int2str(version), ".csv");
+        success = do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 0, 0, 0, 1, filename);
+    
+        if success
+            low = next;
+            fprintf('Value of %.4f success.\n', next);
+        else
+            high = next;
+            fprintf('Value of %.4f fail.\n', next);
+        end
+    
+    end
+
+    fprintf('gradual_quad_vary_coef: Final mid value of %.4f.\n', next);
+    midpoint = [low, high];
 end % function

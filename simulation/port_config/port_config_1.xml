@@ -42,7 +42,7 @@
         <property> fcs/stabilizer/initial-pilot-energy </property>
         <property> fcs/stabilizer/energy-input-rate </property>
         <property> fcs/stabilizer/background-energy-burn-rate </property>
-	<property> fcs/stabilizer/trimming-energy-burn-rate </property>
+        <property> fcs/stabilizer/trimming-energy-burn-rate </property>
     </input>
 
     <outputs>
@@ -51,7 +51,7 @@
             	<property> aero/alpha-deg </property>
             	<property> aero/alpha-deg </property>
             	<property> velocities/h-dot-fps </property>
-            	<property> attitude/theta-deg </property>
+            <property> attitude/theta-deg </property>
         </output>
 
         <output name="Flight Data">
@@ -94,7 +94,7 @@
             	<property> velocities/vc-kts </property>
 
 	    	<!-- Horizontal Stabilizer -->
-            	<property> fcs/elevator-cmd-norm </property>
+            <property> fcs/elevator-cmd-norm </property>
         </output>
 
 	<output name="Trajectory Plotting">
@@ -113,6 +113,7 @@
 		<property> fcs/stabilizer/mcas-input </property>
             	<property> aero/alpha-deg </property>
         <property> fcs/stabilizer/pilot-trim-rate </property>
+        <property> fcs/stabilizer/mcas-min-delay </property>
         
         </output>
     </outputs>

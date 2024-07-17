@@ -7,10 +7,15 @@
 
 clc; clear;
 initialize_sim_config;
-store_anomaly_params(append('anomalies/EmptyInjection.json'));
+% store_anomaly_params(append('anomalies/EmptyInjection.json'));
 %set_script_parameters([zeros(1, 25)]);  % straight and level
-set_script_parameters([zeros(1, 21), 50, 300, 100, 1]);  % takeoff_stall
-%set_script_parameters([zeros(1, 14), 180, 2000, 300, 10000, zeros(1, 7)]);  % normal takeoff
-set_mcas_parameters([11, 2.5, 0.27, 18, 7.2, 0, 0.1, 0.105, 0.1]);
+%set_script_parameters([zeros(1, 14), 180, 2000, 300, 10000, zeros(1, 6), 3]);  % normal takeoff
+
+store_anomaly_params('anomalies/EmptyInjection.json');
+set_script_parameters([zeros(1, 21), 50, 250, 100, 6]);
+set_mcas_parameters([11, 2.5, 0.27, 18, 3.5, 0, 0.1, 0.105, 0.1]);
 filename = append("../data-collection/simulation-export/manual_output.csv");
-do_sim("takeoff_stall_pilot_reaction_delay", "sa_mcas", 300, evalin("base", "sortedParams"), 1, 0, 0, 1, filename);
+
+% do_sim("takeoff_stall_pilot_reaction_delay", "sa_mcas", 300, evalin("base", "sortedParams"), 1, 0, 0, 1, filename);
+do_sim("takeoff_stall_pilot_reaction_delay", mcas, 250, evalin("base", "sortedParams"), 1, 0, 0, 1, filename);
+
