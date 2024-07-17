@@ -1,7 +1,0 @@
-{
-    "sensor_frequencies": {
-        "Elevator Position (deg)": 5,
-        "Rudder Position (deg)": 4,
-        "common": 10,
-    }
-}
