@@ -5,10 +5,11 @@
 	<!-- Misc. -->
         <property> propulsion/engine[0]/set-running </property>
         <property> propulsion/engine[1]/set-running </property>
-	    <property> gear/gear-cmd-norm </property>
+	<property> gear/gear-cmd-norm </property>
         <property> fcs/flap-cmd-norm </property>
-	    <property> fcs/brake-left-cmd </property>
-	    <property> fcs/brake-right-cmd </property>
+	<property> fcs/brake-left-cmd </property>
+	<property> fcs/brake-right-cmd </property>
+	<property> fcs/stabilizer/pilot-reaction-delay </property>
 
 	<!-- Elevator -->
         <property> fcs/elevator-cmd-norm </property>
@@ -24,82 +25,97 @@
         <property> fcs/throttle-cmd-norm[1] </property>
 
 	<!-- Horizontal Stabilizer From Pilot -->
-	    <property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
+	<property> fcs/stabilizer/pilot-trim-stab-target-diff </property>
+        <property> fcs/stabilizer/manual-active </property>
+        <property> fcs/stabilizer/manual-trim-direction </property>
 
-    <!-- Horizontal Stabilizer From MCAS -->
+    	<!-- Horizontal Stabilizer From MCAS -->
         <property> fcs/pitch-trim-cmd-norm </property>
-	    <property> fcs/MCAS-trim-enabled </property>
+	<property> fcs/stabilizer/mcas-active </property>
+
+	<!-- Horizontal Stabilizer From MATLAB Workspace -->
+	<property> fcs/stabilizer/mcas-min-delay </property>
+	<property> fcs/stabilizer/mcas-trim-amount </property>
+	<property> fcs/stabilizer/mcas-trim-rate </property>
+	<property> fcs/stabilizer/rotations-per-degree </property>
+        <property> fcs/stabilizer/rotations-per-second </property>
+        <property> fcs/stabilizer/initial-pilot-energy </property>
+        <property> fcs/stabilizer/energy-input-rate </property>
+        <property> fcs/stabilizer/background-energy-burn-rate </property>
+        <property> fcs/stabilizer/trimming-energy-burn-rate </property>
     </input>
 
     <outputs>
         <output name="MCAS">
-            <property> fcs/flap-pos-deg </property>
-            <property> aero/alpha-deg </property>
-            <property> aero/alpha-deg </property>
-            <property> fcs/pitch-trim-cmd-norm </property>
-            <property> fcs/pitch-trim-sum </property>
+            	<property> fcs/flap-pos-deg </property>
+            	<property> aero/alpha-deg </property>
+            	<property> aero/alpha-deg </property>
+            	<property> velocities/h-dot-fps </property>
+            <property> attitude/theta-deg </property>
         </output>
 
-        <output name="Output 2">
-	    <!-- Scripting Module -->
-            <property> simulation/sim-time-sec </property>
-            <property> position/h-sl-ft </property>
-            <property> velocities/h-dot-fps </property>
-            <property> attitude/theta-deg </property>
-            <property> attitude/psi-deg </property>
-            <property> velocities/psidot-rad_sec </property>
-            <property> attitude/phi-deg </property>
-            <property> velocities/vc-kts </property>
+        <output name="Flight Data">
+	    	<!-- Scripting Module -->
+            	<property> simulation/sim-time-sec </property>
+            	<property> position/h-sl-ft </property>
+            	<property> velocities/h-dot-fps </property>
+            	<property> attitude/theta-deg </property>
+            	<property> attitude/psi-deg </property>
+            	<property> velocities/psidot-rad_sec </property>
+            	<property> attitude/phi-deg </property>
+            	<property> velocities/vc-kts </property>
+            	<property> propulsion/engine/n1 </property>
+            	<property> propulsion/engine[1]/n1 </property>
+            	<property> fcs/elevator-cmd-norm </property>
+            	<property> fcs/stabilizer/stabilizer-pos-unit </property>
+		<property> aero/alpha-deg </property>
+		<property> fcs/stabilizer/mcas-input </property>
+		<property> fcs/stabilizer/mcas-min-delay </property>
+		<property> fcs/stabilizer/mcas-trim-amount </property>
+		<property> fcs/stabilizer/mcas-trim-rate </property>
 
-            <property> propulsion/engine/n1 </property>
-            <property> propulsion/engine[1]/n1 </property>
+	    	<!-- Elevator -->
+            	<property> position/h-sl-ft </property>
+            	<property> velocities/h-dot-fps </property>
+            	<property> velocities/vc-kts </property>
+            	<property> attitude/theta-deg </property>
+            	<property> velocities/thetadot-rad_sec </property>
 
-	    <!-- Elevator -->
-            <property> position/h-sl-ft </property>
-            <property> velocities/h-dot-fps </property>
-            <property> velocities/vc-kts </property>
-            <property> attitude/theta-deg </property>
-            <property> velocities/thetadot-rad_sec </property>
+	    	<!-- Ailerons -->
+            	<property> attitude/psi-deg </property>
+            	<property> velocities/psidot-rad_sec </property>
+            	<property> attitude/phi-deg </property>
+            	<property> velocities/phidot-rad_sec </property>
 
-	    <!-- Ailerons -->
-            <property> attitude/psi-deg </property>
-            <property> velocities/psidot-rad_sec </property>
-            <property> attitude/phi-deg </property>
-            <property> velocities/phidot-rad_sec </property>
+	    	<!-- Rudder -->
+            	<property> aero/beta-deg </property>
 
-	    <!-- Rudder -->
-            <property> aero/beta-deg </property>
+	    	<!-- Throttle -->
+            	<property> velocities/vc-kts </property>
 
-	    <!-- Throttle -->
-            <property> velocities/vc-kts </property>
-
-	    <!-- Horizontal Stabilizer -->
+	    	<!-- Horizontal Stabilizer -->
             <property> fcs/elevator-cmd-norm </property>
         </output>
 
-	    <output name="Trajectory Plotting">
-            <property> position/lat-gc-deg </property>
+	<output name="Trajectory Plotting">
+		<property> position/lat-gc-deg </property>
 	        <property> position/long-gc-deg </property>
 	        <property> position/h-sl-ft </property>
-            <property> accelerations/a-pilot-z-ft_sec2 </property>
-            <property> aero/alpha-deg </property>
+            	<property> accelerations/a-pilot-z-ft_sec2 </property>
+            	<property> aero/alpha-deg </property>
+        <property> fcs/stabilizer/total-deadline-met </property>
         </output>
 
-	    <output name="HS Controls Debug">
-	        <property> fcs/stabilizer/mcas-active </property>
-	        <property> fcs/stabilizer/mcas-timer-active </property>
-	        <property> fcs/stabilizer/stabilizer-pos-unit </property>
-	        <property> fcs/stabilizer/stab-target </property>
-	        <property> fcs/elevator-cmd-norm </property>
+	<output name="HS Controls Debug">
+		<property> fcs/stabilizer/stabilizer-pos-unit </property>
+            	<property> fcs/elevator-cmd-norm </property>
+		<property> fcs/stabilizer/mcas-active </property>
+		<property> fcs/stabilizer/mcas-input </property>
+            	<property> aero/alpha-deg </property>
+        <property> fcs/stabilizer/pilot-trim-rate </property>
+        <property> fcs/stabilizer/mcas-min-delay </property>
+        
         </output>
     </outputs>
-
-    <!--This is an optional parameter-->
-    <!--The only properties in this should be atmosphere related-->
-    <!--weather>
-        <property> atmosphere/wind-north-fps </property>
-        <property> atmosphere/wind-north-fps </property>
-        <property> atmosphere/wind-north-fps </property>
-    </weather-->
 
 </s_function_config>

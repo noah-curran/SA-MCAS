@@ -2,7 +2,7 @@
     "Injection": {
         "InjectionType": 1,
         "StartTime": 100,
-        "EndTime": 105,
+        "EndTime": 150,
         "Val": 20,
         "Sensor Index": 2,
         "Type": 0,

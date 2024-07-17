@@ -1,0 +1,14 @@
+{
+	"Injection": {
+		"InjectionType": 1,
+		"StartTime": 100.0,
+		"EndTime": 150.0,
+		"Val": 4.0,
+		"Sensor Index": 2,
+		"Type": 0,
+		"Coef1": 0,
+		"Coef2": 0,
+		"Freq": 0,
+		"Percentile": 0
+	}
+}
