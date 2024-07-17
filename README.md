@@ -1,6 +1,8 @@
 This is the repository for the code and experiments for SA-MCAS, which appears in
 the ACM SIGBED International Conference on Embedded Software 2024.
 
+[Please read the paper for more details on this work.](http://ntcurran.com/assets/files/emsoft24-curran.pdf)
+
 We analyze the safety of the new and old MCAS systems of the Boeing 737-MAX in
 simulation (using JSBSim), and propose a new system that combines the strengths
 of both of the prior systems.
@@ -23,4 +25,4 @@ If you use this work, please cite it:
   pages        = {??? -- ???},
   publisher    = {IEEE},
 }
-```f
+```
